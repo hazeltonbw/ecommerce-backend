@@ -1,6 +1,9 @@
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
+const pgPool = require("../db/index");
+
 const { SESSION_SECRET } = require("../config");
 
 module.exports = (app) => {
@@ -38,6 +41,11 @@ module.exports = (app) => {
   // Creates a session
   app.use(
     session({
+      store: new pgSession({
+        pool: pgPool,
+        tableName: "user_sessions",
+        createTableIfMissing: true,
+      }),
       secret: SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
