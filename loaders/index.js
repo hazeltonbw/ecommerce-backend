@@ -19,7 +19,8 @@ module.exports = async (app) => {
 
   // Error Handler
   app.use((err, req, res, next) => {
-    const { message, status } = err;
+    const { message } = err;
+    const status = err.status || 500;
 
     return res.status(status).send({ message });
   });
