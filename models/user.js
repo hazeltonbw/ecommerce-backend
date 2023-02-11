@@ -23,7 +23,7 @@ const getUsers = async () => {
  */
 const getUserById = async (id) => {
   const query = {
-    text: "SELECT * FROM users WHERE id = $1",
+    text: "SELECT * FROM users WHERE user_id = $1",
     values: [id],
   };
 
@@ -41,12 +41,12 @@ const getUserById = async (id) => {
  * @returns An object with the newly created users information
  */
 const createUser = async (data) => {
-  const { email, password } = data;
+  const { email, password, fname, lname } = data;
   const hashedPassword = await hashPassword(password);
 
   const query = {
-    text: "INSERT INTO users(password, email) VALUES($1, $2) RETURNING *",
-    values: [hashedPassword, email],
+    text: "INSERT INTO users(password, email, fname, lname) VALUES($1, $2, $3, $4) RETURNING *",
+    values: [hashedPassword, email, fname, lname],
   };
 
   try {
@@ -174,7 +174,7 @@ const deleteUserById = async (userId) => {
   }
 
   const query = {
-    text: "DELETE FROM users WHERE id = $1",
+    text: "DELETE FROM users WHERE user_id = $1",
     values: [userId],
   };
 
