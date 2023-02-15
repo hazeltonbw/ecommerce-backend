@@ -4,5 +4,4 @@ const getUsersCart = async (req, res, next) => {
 
 module.exports = {
   getUsersCart,
-  getCartById,
 };
