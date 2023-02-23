@@ -65,7 +65,7 @@ const { DB } = require("../config");
         cart_id integer,
         fname character varying(20) NOT NULL,
         lname character varying(20) NOT NULL,
-        email character varying(70) NOT NULL,
+        email character varying(70) NOT NULL UNIQUE,
         password text NOT NULL,
         PRIMARY KEY (user_id)
     );
