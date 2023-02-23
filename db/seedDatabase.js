@@ -177,4 +177,8 @@ const clearDatabase = async () => {
 };
 
 module.exports = { seedDatabase, clearDatabase };
-await seedDatabase();
+// https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+// Use IIFE to call seedDatabase
+(async () => {
+  await seedDatabase();
+})();
