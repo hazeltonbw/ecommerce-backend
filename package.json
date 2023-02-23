@@ -7,7 +7,7 @@
     "start": "nodemon -r dotenv/config server.js",
     "create-db": "node db/setupDatabase.js",
     "seed-db": "node db/seedDatabase.js",
-    "test": "jest --forceExit"
+    "test": "jest --forceExit --runInBand"
   },
   "author": "",
   "license": "ISC",
