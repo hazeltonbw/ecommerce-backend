@@ -1,8 +1,12 @@
 const request = require("supertest");
+const { clearDatabase } = require("../db/seedDatabase");
 const app = require("../index");
 const User = require("../models/user");
 
 describe("Auth route", () => {
+  // beforeAll(async ()=> {
+  //   await clearDatabase();
+  // })
   // Create mock data needed for tests
   const body = {
     fname: "First Name",
