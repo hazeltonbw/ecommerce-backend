@@ -14,13 +14,6 @@ module.exports = class mockData {
 
   constructor() {
     this.#AMOUNT_OF_MOCKS = 15;
-    this.#createMockUsers();
-    this.#createMockCategories();
-    this.#createMockProducts();
-    this.#createMockCarts();
-    this.#createMockOrders();
-    this.#createMockCartHasProducts();
-    this.#createMockOrderHasProducts();
   }
 
   getMockUsers = () => this.#mockUsers;
@@ -32,7 +25,7 @@ module.exports = class mockData {
   getMockOrderHasProducts = () => this.#mockOrderHasProducts;
   getAmountOfMocks = () => this.#AMOUNT_OF_MOCKS;
 
-  #createMockUsers = () => {
+  createMockUsers = () => {
     for (let i = 0; i < this.#AMOUNT_OF_MOCKS; i++) {
       const user = {
         user_id: i + 1,
@@ -44,9 +37,11 @@ module.exports = class mockData {
 
       this.#mockUsers.push(user);
     }
+
+    return this.#mockUsers;
   };
 
-  #createMockCategories = () => {
+  createMockCategories = () => {
     for (let i = 0; i < this.#AMOUNT_OF_MOCKS; i++) {
       const category = {
         category_id: i + 1,
@@ -55,9 +50,11 @@ module.exports = class mockData {
 
       this.#mockCategories.push(category);
     }
+
+    return this.#mockCategories;
   };
 
-  #createMockProducts = () => {
+  createMockProducts = () => {
     for (let i = 0; i < this.#AMOUNT_OF_MOCKS; i++) {
       const product = {
         product_id: i + 1,
@@ -69,9 +66,11 @@ module.exports = class mockData {
 
       this.#mockProducts.push(product);
     }
+
+    return this.#mockProducts;
   };
 
-  #createMockOrders = () => {
+  createMockOrders = () => {
     for (let i = 0; i < this.#AMOUNT_OF_MOCKS; i++) {
       const order = {
         order_id: i + 1,
@@ -85,9 +84,11 @@ module.exports = class mockData {
 
       this.#mockOrders.push(order);
     }
+
+    return this.#mockOrders;
   };
 
-  #createMockCarts = () => {
+  createMockCarts = () => {
     for (let i = 0; i < this.#AMOUNT_OF_MOCKS; i++) {
       const cart = {
         cart_id: i + 1,
@@ -97,9 +98,11 @@ module.exports = class mockData {
 
       this.#mockCarts.push(cart);
     }
+
+    return this.#mockCarts;
   };
 
-  #createMockCartHasProducts = () => {
+  createMockCartHasProducts = () => {
     for (let i = 0; i < this.#AMOUNT_OF_MOCKS; i++) {
       const cartHasProduct = {
         cart_id: i + 1,
@@ -109,9 +112,11 @@ module.exports = class mockData {
 
       this.#mockCartHasProducts.push(cartHasProduct);
     }
+
+    return this.#mockCartHasProducts;
   };
 
-  #createMockOrderHasProducts = () => {
+  createMockOrderHasProducts = () => {
     for (let i = 0; i < this.#AMOUNT_OF_MOCKS; i++) {
       const orderHasProduct = {
         order_id: i + 1,
@@ -121,5 +126,7 @@ module.exports = class mockData {
 
       this.#mockOrderHasProducts.push(orderHasProduct);
     }
+
+    return this.#mockOrderHasProducts;
   };
 };
