@@ -1,14 +1,18 @@
 const request = require("supertest");
 const app = require("../index");
-const seedDatabase = require("../db/seedDatabase");
+const { seedDatabase, clearDatabase } = require("../db/seedDatabase");
 // create our mockData
 
 const mockData = require("./mockData");
 let mockDataInstance = new mockData();
 
-beforeAll(async () => {
-  await seedDatabase();
-});
+// beforeAll(async () => {
+//   await seedDatabase();
+// });
+
+// afterAll(async () => {
+//   await clearDatabase();
+// })
 
 describe("Users route", () => {
   let response;
@@ -24,10 +28,13 @@ describe("Users route", () => {
   const messageObject = expect.objectContaining({
     message: expect.any(String),
   });
+  // we will change this to match the first user
+  let userId = 1;
 
   describe("GET /users", () => {
     beforeAll(async () => {
       response = await request(app).get("/users");
+      userId = response.body[0].user_id;
     });
     it("should return HTTP 200", () => {
       expect(response.statusCode).toBe(200);
@@ -41,7 +48,7 @@ describe("Users route", () => {
   describe("GET /users/:id", () => {
     describe("given a registered users id", () => {
       beforeAll(async () => {
-        const url = `/users/${users[0].user_id}`;
+        const url = `/users/${userId}`;
         response = await request(app).get(url);
       });
 
@@ -71,7 +78,7 @@ describe("Users route", () => {
   describe("PUT /users/:id", () => {
     let newPassword = "thisIsANewPassword";
     beforeAll(async () => {
-      response = await request(app).put(`/users/${users[0].user_id}`).send({
+      response = await request(app).put(`/users/${userId}`).send({
         password: newPassword,
       });
     });
@@ -105,7 +112,7 @@ describe("Users route", () => {
 
   describe("DELETE /users/:id", () => {
     beforeAll(async () => {
-      response = await request(app).delete(`/users/${users[0].user_id}`);
+      response = await request(app).delete(`/users/${userId}`);
     });
     describe("given a valid user id", () => {
       it("should return HTTP 200", () => {

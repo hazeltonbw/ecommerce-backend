@@ -2,16 +2,13 @@ const request = require("supertest");
 const app = require("../index");
 const mockData = require("./mockData");
 const mockDataInstance = new mockData();
-const seedDatabase = require("../db/seedDatabase");
-
-beforeAll(async () => {
-  await seedDatabase();
-});
+const { seedDatabase, clearDatabase } = require("../db/seedDatabase");
 
 describe("Products route", () => {
   // variable setup needed to test product route
   let response;
-  const products = mockDataInstance.getMockProducts();
+  let productId = 1;
+  const products = mockDataInstance.createMockProducts();
   const productObject = expect.objectContaining({
     product_id: expect.any(Number),
     category_id: expect.any(Number),
@@ -32,6 +29,7 @@ describe("Products route", () => {
   describe("GET /products", () => {
     beforeAll(async () => {
       response = await request(app).get("/products");
+      productId = response.body[0].product_id;
     });
 
     it("should return HTTP 200", async () => {
@@ -50,7 +48,8 @@ describe("Products route", () => {
       it("should ", async () => {
         for (const product of products) {
           // Test category first
-          let url = `/products?category=category%20${product.category_id}`;
+          const categoryId = product.category_id;
+          let url = `/products?category=${categoryId}`;
 
           response = await request(app).get(url);
           expect(response.statusCode).toBe(200);
@@ -78,9 +77,7 @@ describe("Products route", () => {
   describe("GET /products/:id", () => {
     describe("given a valid id", () => {
       beforeAll(async () => {
-        response = await request(app).get(
-          `/products/${products[0].product_id}`
-        );
+        response = await request(app).get(`/products/${productId}`);
       });
 
       it("should return HTTP 200", () => {
@@ -133,13 +130,11 @@ describe("Products route", () => {
 
     describe("given a valid id", () => {
       beforeAll(async () => {
-        response = await request(app)
-          .put(`/products/${products[0].product_id}`)
-          .send({
-            name: "Great product name",
-            price: 350.0,
-            description: "What a great description",
-          });
+        response = await request(app).put(`/products/${productId}`).send({
+          name: "Great product name",
+          price: 350.0,
+          description: "What a great description",
+        });
       });
 
       it("should return HTTP 200", () => {
@@ -173,9 +168,7 @@ describe("Products route", () => {
 
     describe("given a valid id", () => {
       beforeAll(async () => {
-        response = await request(app).delete(
-          `/products/${products[0].product_id}`
-        );
+        response = await request(app).delete(`/products/${productId}`);
       });
 
       it("should return HTTP 204", () => {
