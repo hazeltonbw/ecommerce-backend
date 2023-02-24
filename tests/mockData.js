@@ -33,6 +33,7 @@ module.exports = class mockData {
         lname: `l${i + 1}`,
         email: `f${i + 1}.l${i + 1}@test.com`,
         password: `password`,
+        isadmin: false,
       };
 
       this.#mockUsers.push(user);
@@ -92,6 +93,7 @@ module.exports = class mockData {
     for (let i = 0; i < this.#AMOUNT_OF_MOCKS; i++) {
       const cart = {
         cart_id: i + 1,
+        user_id: i + 1,
         created: new Date().toISOString().substring(0, 10),
         modified: new Date().toISOString().substring(0, 10),
       };

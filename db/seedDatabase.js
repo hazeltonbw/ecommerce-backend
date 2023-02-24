@@ -54,7 +54,7 @@ const seedDatabase = async () => {
   // mock users
   const users = mockDataInstance.createMockUsers();
   let cs = new pgp.helpers.ColumnSet(
-    ["user_id", "fname", "lname", "email", "password"],
+    ["user_id", "fname", "lname", "email", "password", "isadmin"],
     { table: DB.USERS_TABLE }
   );
   let seedUsersTable = pgp.helpers.insert(users, cs);
@@ -85,9 +85,12 @@ const seedDatabase = async () => {
   seedOrdersTable = insertOverrideSystemValueIntoQuery(seedOrdersTable);
 
   const carts = mockDataInstance.createMockCarts();
-  cs = new pgp.helpers.ColumnSet(["cart_id", "created", "modified"], {
-    table: DB.CARTS_TABLE,
-  });
+  cs = new pgp.helpers.ColumnSet(
+    ["cart_id", "user_id", "created", "modified"],
+    {
+      table: DB.CARTS_TABLE,
+    }
+  );
   let seedCartsTable = pgp.helpers.insert(carts, cs);
   seedCartsTable = insertOverrideSystemValueIntoQuery(seedCartsTable);
 
@@ -124,11 +127,11 @@ const seedDatabase = async () => {
       console.error(`There was an issue connecting ${DB.PGDATABASE}: ` + error);
     }
     // Clear data in tables. That way it can be used to refresh the db.
+    await dbECommerceProjectTest.query(clearCartsTable);
     await dbECommerceProjectTest.query(clearUsersTable);
     await dbECommerceProjectTest.query(clearProductsTable);
     await dbECommerceProjectTest.query(clearOrdersTable);
     await dbECommerceProjectTest.query(clearCategoriesTable);
-    await dbECommerceProjectTest.query(clearCartsTable);
     await dbECommerceProjectTest.query(clearCartHasProductsTable);
     await dbECommerceProjectTest.query(clearOrderHasProductsTable);
 
