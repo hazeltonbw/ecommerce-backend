@@ -6,7 +6,7 @@ const dotenv = require("dotenv").config({
 const { PORT } = require("./config");
 
 app.get("/", (req, res, next) => {
-  res.send(":)))))");
+  res.send("Main page! :)))))");
 });
 
 app.listen(PORT, () => {
