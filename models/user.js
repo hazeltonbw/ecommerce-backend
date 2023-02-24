@@ -12,7 +12,6 @@ const getUsers = async () => {
     const result = await pool.query(statement);
     return result.rows;
   } catch (err) {
-    //console.log(err);
     throw new Error(err);
   }
 };
@@ -24,7 +23,7 @@ const getUsers = async () => {
  */
 const getUserById = async (id) => {
   const query = {
-    text: "SELECT * FROM users WHERE user_id = $1",
+    text: "SELECT user_id, fname, lname, email, isadmin as is_admin FROM users WHERE user_id = $1",
     values: [id],
   };
 
@@ -42,12 +41,12 @@ const getUserById = async (id) => {
  * @returns An object with the newly created users information
  */
 const createUser = async (data) => {
-  const { email, password, fname, lname } = data;
+  const { email, password, fname, lname, isAdmin } = data;
   const hashedPassword = await hashPassword(password);
 
   const query = {
-    text: "INSERT INTO users(password, email, fname, lname) VALUES($1, $2, $3, $4) RETURNING *",
-    values: [hashedPassword, email, fname, lname],
+    text: "INSERT INTO users(password, email, fname, lname, isadmin) VALUES($1, $2, $3, $4, $5) RETURNING *",
+    values: [hashedPassword, email, fname, lname, isAdmin],
   };
 
   try {
