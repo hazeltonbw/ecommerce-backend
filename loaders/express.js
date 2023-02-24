@@ -4,7 +4,7 @@ const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const pgPool = require("../db/index");
 
-const { SESSION_SECRET } = require("../config");
+const config = require("../config");
 
 module.exports = (app) => {
   // Enable Cross Origin Resource Sharing to all origins by default
@@ -43,16 +43,13 @@ module.exports = (app) => {
     session({
       store: new pgSession({
         pool: pgPool,
-        tableName: "user_sessions",
+        tableName: config.DB.USER_SESSIONS_TABLE,
         createTableIfMissing: true,
       }),
-      secret: SESSION_SECRET,
+      secret: config.SESSION.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      cookie: {
-        secure: false,
-        maxAge: 24 * 60 * 60 * 1000,
-      },
+      cookie: config.SESSION.COOKIE,
     })
   );
 
