@@ -21,5 +21,11 @@ module.exports = {
     ORDER_HAS_PRODUCTS_TABLE: "order_has_products",
     USER_SESSIONS_TABLE: "user_sessions",
   },
-  SESSION_SECRET: process.env.SESSION_SECRET,
+  SESSION: {
+    COOKIE: {
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+    SESSION_SECRET: process.env.SESSION_SECRET,
+  },
 };
