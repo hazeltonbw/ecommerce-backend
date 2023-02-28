@@ -75,36 +75,36 @@ CREATE TABLE IF NOT EXISTS public.users (
 ALTER TABLE
     IF EXISTS public.cart_has_products
 ADD
-    CONSTRAINT cart_has_products_cart_id_fkey FOREIGN KEY (cart_id) REFERENCES public.carts (cart_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE NOT VALID;
+    CONSTRAINT cart_has_products_cart_id_fkey FOREIGN KEY (cart_id) REFERENCES public.carts (cart_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE
     IF EXISTS public.cart_has_products
 ADD
-    CONSTRAINT cart_has_products_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (product_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE NOT VALID;
+    CONSTRAINT cart_has_products_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (product_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE
     IF EXISTS public.order_has_products
 ADD
-    CONSTRAINT order_has_products_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.orders (order_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE NOT VALID;
+    CONSTRAINT order_has_products_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.orders (order_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE
     IF EXISTS public.order_has_products
 ADD
-    CONSTRAINT order_has_products_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (product_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE NOT VALID;
+    CONSTRAINT order_has_products_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products (product_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE
     IF EXISTS public.orders
 ADD
-    CONSTRAINT orders_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users (user_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE NOT VALID;
+    CONSTRAINT orders_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users (user_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE
     IF EXISTS public.products
 ADD
-    CONSTRAINT products_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories (category_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE NOT VALID;
+    CONSTRAINT products_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories (category_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE
     IF EXISTS public.users
 ADD
-    CONSTRAINT users_cart_id_fkey FOREIGN KEY (cart_id) REFERENCES public.carts (cart_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE NOT VALID;
+    CONSTRAINT users_cart_id_fkey FOREIGN KEY (cart_id) REFERENCES public.carts (cart_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 END;
