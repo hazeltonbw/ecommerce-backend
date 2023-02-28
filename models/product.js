@@ -144,6 +144,44 @@ const deleteProductById = async (id) => {
   return null;
 };
 
+const getCategoryId = async (category) => {
+  const query = {
+    text: "SELECT category_id FROM categories WHERE name ILIKE '%'||$1||'%'",
+    values: [category],
+  };
+
+  const result = await pool.query(query);
+  return result.rows?.length ? result.rows[0].category_id : null;
+};
+
+const createCategory = async (category) => {
+  const query = {
+    text: `INSERT INTO categories(name) values($1)`,
+    values: [category],
+  };
+
+  const result = await pool.query(query);
+  return result.rows?.length ? result.rows[0].category_id : null;
+};
+
+const addProduct = async (data) => {
+  const { title, price, description, category } = data;
+  // first get category id
+  let category_id = await getCategoryId(category);
+  // if there's no category, let's just create it (fix later when we have a proper store)
+  if (!category_id) {
+    category_id = await createCategory(category);
+  }
+
+  const query = {
+    text: `INSERT INTO products(category_id, title, price, description) values($1,$2,$3,$4) RETURNING *`,
+    values: [category_id, title, price, description],
+  };
+
+  const result = await pool.query(query);
+  return result.rows?.length ? result.rows[0] : null;
+};
+
 module.exports = {
   getProducts,
   getProductsByCategory,
@@ -151,4 +189,5 @@ module.exports = {
   getProductsByName,
   updateProductById,
   deleteProductById,
+  addProduct,
 };
