@@ -42,9 +42,20 @@ const deleteProductById = async (req, res, next) => {
   }
 };
 
+const addProduct = async (req, res, next) => {
+  try {
+    const data = req.body;
+    const response = await productModel.addProduct(data);
+    res.status(200).send(response);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   updateProductById,
   deleteProductById,
+  addProduct,
 };
