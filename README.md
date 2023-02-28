@@ -21,3 +21,4 @@ Once the app is running locally, you can access the API at `http://localhost:<yo
 - [x] Cart
 - [ ] Orders
 - [ ] Testing
+- [ ] Checkout
