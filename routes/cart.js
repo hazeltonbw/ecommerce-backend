@@ -4,10 +4,10 @@ const cartController = require("../controllers/cartController");
 const { isLoggedIn, isAdmin } = require("../middleware/auth");
 
 module.exports = (app) => {
-  app.use("/cart", router);
-  router.get("/", isLoggedIn, cartController.getUsersCart);
-  router.put("/", isLoggedIn, cartController.editProductInCart);
-  router.delete("/", isLoggedIn, cartController.deleteProductInCart);
-  router.post("/add", isLoggedIn, cartController.addProductToCart);
-  router.get("/admin", isLoggedIn, isAdmin, cartController.getCarts);
+  app.use("/cart", isLoggedIn, router);
+  router.get("/", cartController.getUsersCart);
+  router.put("/", cartController.editProductInCart);
+  router.delete("/", cartController.deleteProductInCart);
+  router.post("/add", cartController.addProductToCart);
+  router.get("/admin", isAdmin, cartController.getCarts);
 };
