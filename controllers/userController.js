@@ -1,5 +1,5 @@
-// TODO: isLoggedIn, isAdmin
 const userModel = require("../models/user");
+const cartModel = require("../models/cart");
 
 const getUsers = async (req, res, next) => {
   try {
@@ -9,7 +9,6 @@ const getUsers = async (req, res, next) => {
     next(err);
   }
 };
-// TODO: isLoggedIn, isAdmin
 const getUserById = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
@@ -20,7 +19,6 @@ const getUserById = async (req, res, next) => {
   }
 };
 
-//TODO: isLoggedIn
 const updateUserById = async (req, res, next) => {
   const id = parseInt(req.params.id);
   const { password } = req.body;
@@ -34,13 +32,15 @@ const updateUserById = async (req, res, next) => {
   }
 };
 
-// TODO: isLoggedIn, isAdmin
 const deleteUserById = async (req, res, next) => {
   try {
-    const userId = parseInt(req.params.id);
-    const response = await userModel.deleteUserById(userId);
+    const { id } = req.params; //user_id
+    const { cart_id } = req.user;
+    // delete references to user so theres no conflicts in database
+    const deleteCart = await cartModel.deleteUsersCart(cart_id);
+    const response = await userModel.deleteUserById(id);
     res.status(200).send({
-      message: `User with userId: ${userId} deleted from database.`,
+      message: `User with userId: ${id} deleted from database.`,
     });
   } catch (err) {
     next(err);
