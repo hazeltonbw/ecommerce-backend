@@ -44,7 +44,6 @@ module.exports = (app) => {
       store: new pgSession({
         pool: pgPool,
         tableName: config.DB.USER_SESSIONS_TABLE,
-        createTableIfMissing: true,
       }),
       secret: config.SESSION.SESSION_SECRET,
       resave: false,
