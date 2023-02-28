@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
+const { isLoggedIn } = require("../middleware/auth");
 
 module.exports = (app, passport) => {
   app.use("/auth", router);
@@ -18,5 +19,5 @@ module.exports = (app, passport) => {
       res.status(200).send(user);
     }
   );
-  router.post("/logout", authController.logout);
+  router.post("/logout", isLoggedIn, authController.logout);
 };
