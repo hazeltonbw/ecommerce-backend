@@ -21,13 +21,12 @@ const registerNewUser = async (req, res, next) => {
   }
 };
 
-//TODO: isLoggedIn middleware
 const logout = (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
     res.clearCookie("connect.sid");
     req.session.destroy();
-    res.redirect("/login");
+    res.redirect("/auth/login");
   });
 };
 
