@@ -1,6 +1,5 @@
-//TODO: isAdmin middleware
-
 const isLoggedIn = async (req, res, next) => {
+  //console.log("isLoggedIn middleware");
   if (req.isAuthenticated()) {
     return next();
   }
