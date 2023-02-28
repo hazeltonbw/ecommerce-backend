@@ -89,6 +89,28 @@ const deleteProductInCart = async (data) => {
   return result.rows?.length ? result.rows[0].cart_id : null;
 };
 
+const deleteAllProductsInCart = async (cart_id) => {
+  const query = {
+    text: `DELETE FROM cart_has_products WHERE cart_id = $1`,
+    values: [cart_id],
+  };
+
+  const result = await pool.query(query);
+  return result.rows?.length ? result.rows[0].cart_id : null;
+};
+
+const deleteUsersCart = async (cart_id) => {
+  // First delete all references to the cart
+  await deleteAllProductsInCart(cart_id);
+  const query = {
+    text: `DELETE FROM carts WHERE cart_id = $1`,
+    values: [cart_id],
+  };
+
+  const result = await pool.query(query);
+  return result.rows?.length ? result.rows[0].cart_id : null;
+};
+
 module.exports = {
   getCarts,
   getCartByUserId,
@@ -97,4 +119,5 @@ module.exports = {
   getCartIdByUserId,
   editProductInCart,
   deleteProductInCart,
+  deleteUsersCart,
 };
