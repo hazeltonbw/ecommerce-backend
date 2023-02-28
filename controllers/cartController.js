@@ -29,16 +29,6 @@ const addProductToCart = async (req, res, next) => {
   }
 };
 
-const resetCart = async (req, res, next) => {
-  const { cart_id } = req.user;
-  try {
-    const response = await cartModel.resetCart(cart_id);
-    res.status(200).send(response);
-  } catch (err) {
-    next(err);
-  }
-};
-
 const editProductInCart = async (req, res, next) => {
   const data = req.body;
   try {
@@ -63,7 +53,6 @@ module.exports = {
   getUsersCart,
   getCarts,
   addProductToCart,
-  resetCart,
   editProductInCart,
   deleteProductInCart,
 };
