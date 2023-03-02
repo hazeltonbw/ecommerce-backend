@@ -1,5 +1,4 @@
 const pool = require("../db");
-const createError = require("http-errors");
 
 const getCarts = async () => {
   const statement = `SELECT * FROM carts 
@@ -10,8 +9,6 @@ const getCarts = async () => {
 };
 
 const getCartByUserId = async (user_id) => {
-  // FIXME: for testing purposes, remove after
-  user_id = 2;
   const query = {
     text: `SELECT products.title product_title, products.price product_price,
             products.description product_description, categories.name category_name, 
@@ -120,4 +117,5 @@ module.exports = {
   editProductInCart,
   deleteProductInCart,
   deleteUsersCart,
+  resetCart,
 };

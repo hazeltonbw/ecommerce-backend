@@ -1,4 +1,6 @@
+const { resetCart } = require("../middleware/cart");
 const cartModel = require("../models/cart");
+const orderModel = require("../models/order");
 
 const getUsersCart = async (req, res, next) => {
   try {
@@ -49,10 +51,28 @@ const deleteProductInCart = async (req, res, next) => {
   }
 };
 
+const checkout = async (req, res, next) => {
+  const { user_id, cart_id } = req.user;
+  const date = new Date().toISOString();
+  const status = "PENDING"; // TODO: Update to COMPLETE when implementing Stripe API
+  const data = { user_id, cart_id, date, status };
+  try {
+    // create new order
+    // parameters: user_id, cart_id, date, status = data;
+    const newOrder = await orderModel.createOrder(data);
+    // reset cart back to empty
+    await cartModel.resetCart(cart_id);
+    res.status(200).send(newOrder);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getUsersCart,
   getCarts,
   addProductToCart,
   editProductInCart,
   deleteProductInCart,
+  checkout,
 };
