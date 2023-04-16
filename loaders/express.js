@@ -6,10 +6,10 @@ const pgPool = require("../db/index");
 const config = require("../config");
 
 module.exports = (app) => {
-  // Enable Cross Origin Resource Sharing to all origins by default
   app.use(
     cors({
       origin: "http://localhost:5173",
+      methods: "GET, HEAD, PUT, PATCH, DELETE, POST",
       credentials: true,
     })
   );
@@ -39,7 +39,6 @@ module.exports = (app) => {
   // Parses urlencoded bodies
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  //
   //app.set("trust proxy", 1);
 
   // Creates a session
@@ -51,7 +50,6 @@ module.exports = (app) => {
       }),
       secret: config.SESSION.SESSION_SECRET,
       resave: false,
-      saveUninitialized: true,
       cookie: config.SESSION.COOKIE,
     })
   );
