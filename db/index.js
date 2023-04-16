@@ -14,7 +14,7 @@ module.exports = {
     const res = await pool.query(text, params);
     const duration = Date.now() - start;
     if (process.env.NODE_ENV !== "test") {
-      console.log("executed query", { text, duration, rows: res.rowCount });
+      console.log("executed query", { text, duration, rows: res.rowCount, params: params});
     }
     return res;
   },
