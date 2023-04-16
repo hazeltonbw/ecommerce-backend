@@ -5,15 +5,13 @@ const { isLoggedIn } = require("../middleware/auth");
 
 module.exports = (app, passport) => {
   app.use("/auth", router);
-  router.get("/login", authController.loginPage);
   router.post("/register", authController.registerNewUser);
   router.post(
     "/login",
     passport.authenticate("local"),
     async (req, res, next) => {
-      console.log("making it here?");
       const user = req.user;
-      console.log(user, "req.user TESTTTTTTTTT");
+      req.session.user = user;
       if (!user) {
         // we didnt get a user back from passport authenticate
         res.status(401).send({ message: "Incorrect username or password" });
