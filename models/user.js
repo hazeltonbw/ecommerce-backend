@@ -23,7 +23,7 @@ const getUsers = async () => {
  */
 const getUserById = async (id) => {
   const query = {
-    text: "SELECT user_id, fname, lname, email, isadmin, password FROM users WHERE user_id = $1",
+    text: "SELECT user_id, fname, lname, email, isadmin FROM users WHERE user_id = $1",
     values: [id],
   };
 
@@ -156,7 +156,7 @@ const loginUser = async (data) => {
     if (!passwordIsValid) {
       throw createError(401, "Incorrect username or password");
     }
-
+    delete user.password;
     return user;
   } catch (err) {
     console.error(err);

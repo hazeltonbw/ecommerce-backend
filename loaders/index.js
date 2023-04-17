@@ -4,12 +4,12 @@ const routeLoader = require("../routes");
 //const swaggerLoader = require('./swagger');
 //const swagger = require('./swagger');
 
-module.exports = async (app) => {
+module.exports = (app) => {
   // Load Express middlewares
-  const expressApp = await expressLoader(app);
+  const expressApp = expressLoader(app);
 
   // Load Passport middleware
-  const passport = await passportLoader(expressApp);
+  const passport = passportLoader(expressApp);
 
   // Load API route handlers
   routeLoader(app, passport);

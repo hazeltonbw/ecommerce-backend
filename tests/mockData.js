@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 module.exports = class mockData {
   // Javascript Private Member Variables defined with #
   // #variableName = type;
@@ -32,7 +34,7 @@ module.exports = class mockData {
         fname: `f${i + 1}`,
         lname: `l${i + 1}`,
         email: `f${i + 1}.l${i + 1}@test.com`,
-        password: `password`,
+        password: bcrypt.hashSync("password", 0),
         isadmin: false,
       };
 
