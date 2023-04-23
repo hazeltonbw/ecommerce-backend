@@ -38,11 +38,18 @@ const registerNewUser = async (req, res, next) => {
 
 const logout = (req, res, next) => {
   req.logout((err) => {
-    if (err) return next(err);
-    res.clearCookie("connect.sid");
-    req.session.destroy();
-    res.status(200).send("LOGGED OUT");
+    if (err) next(err);
+    if (req.session) {
+      req.session.destroy();
+    }
+    res.status(200).json("Logged out");
   });
+  // req.logout((err) => {
+  //   if (err) return next(err);
+  //   res.clearCookie("connect.sid");
+  //   req.session.destroy();
+  //   res.status(200).send("LOGGED OUT");
+  // });
 };
 
 module.exports = {
