@@ -6,12 +6,14 @@ const dotenv = require("dotenv").config({
 const { PORT } = require("./config");
 
 app.get("/", (req, res, next) => {
-  console.log(req.session, "req.session from root path");
-  console.log(req.passport, "req.passport from root path");
-  console.log(req.user, "req.user from root path");
-  console.log(req.session.passport, "req.session.passport from root path");
-  console.log(typeof req.session);
-  res.status(200).json(req.session);
+  // console.log("Root route".red);
+  // console.log("req.session".red);
+  // console.log(req.session);
+  if (req.user) {
+    res.status(200).json(req.user);
+  } else {
+    res.status(200).json({});
+  }
 });
 
 app.listen(PORT, () => {

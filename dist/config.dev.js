@@ -1,12 +1,13 @@
-const { enviornmentVariablesChecker } = require("./helperFunctions");
+"use strict";
 
 /*
 @hazeltonbw When running `npm run create-db` there are no enviornment variables.
 By using the npm package `dotenv` we can use the .env file at root. You may not want to do it this way,
 but either way the npm script doesn't seem to be picking up the .env in root.
 */
-const dotenv = require("dotenv").config();
-enviornmentVariablesChecker(dotenv);
+var dotenv = require("dotenv").config();
+
+console.debug(dotenv);
 module.exports = {
   PORT: process.env.PORT,
   DB: {
@@ -22,13 +23,13 @@ module.exports = {
     CARTS_TABLE: "carts",
     CART_HAS_PRODUCTS_TABLE: "cart_has_products",
     ORDER_HAS_PRODUCTS_TABLE: "order_has_products",
-    USER_SESSIONS_TABLE: "user_sessions",
+    USER_SESSIONS_TABLE: "user_sessions"
   },
   SESSION: {
     COOKIE: {
       secure: false,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000
     },
-    SESSION_SECRET: process.env.SESSION_SECRET,
-  },
+    SESSION_SECRET: process.env.SESSION_SECRET
+  }
 };

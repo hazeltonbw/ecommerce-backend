@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
-const { isLoggedIn } = require("../middleware/auth");
+const { isLoggedIn, isAlreadyLoggedIn} = require("../middleware/auth");
+const { ExpressErrorHandler } = require("../helperFunctions");
 
 module.exports = (app, passport) => {
   app.use("/auth", router);
   router.post("/register", authController.registerNewUser);
+  router.get("/login", isAlreadyLoggedIn);
   router.post(
     "/login",
     passport.authenticate("local"),

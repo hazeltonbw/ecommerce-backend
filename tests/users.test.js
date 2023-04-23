@@ -34,7 +34,6 @@ describe("Users route", () => {
     fname: expect.any(String),
     lname: expect.any(String),
     email: expect.any(String),
-    password: expect.any(String),
     isadmin: expect.any(Boolean),
   });
   const messageObject = expect.objectContaining({
