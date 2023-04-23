@@ -23,7 +23,7 @@ function dynamicOriginConfig(origin, callback) {
 module.exports = (app) => {
   app.use(
     cors({
-      origin: dynamicOriginConfig,
+      origin: "http://localhost:5173", //TODO: Figure out how to incorporate dynamicOriginConfig() here
       credentials: true,
     })
   );
@@ -65,6 +65,7 @@ module.exports = (app) => {
       secret: config.SESSION.SESSION_SECRET,
       resave: false,
       cookie: config.SESSION.COOKIE,
+      saveUninitialized: false,
     })
   );
 
