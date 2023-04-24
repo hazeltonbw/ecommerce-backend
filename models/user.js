@@ -171,17 +171,17 @@ const loginUser = async (data) => {
  */
 const deleteUserById = async (userId) => {
   // First check if there is a user with that id
-  const user = await getUserById(userId);
-  if (!user) {
-    throw createError(404, "No user with that id found!");
-  }
-
-  const query = {
-    text: "DELETE FROM users WHERE user_id = $1",
-    values: [userId],
-  };
-
   try {
+    const user = await getUserById(userId);
+    if (!user) {
+      throw createError(404, "No user with that id found!");
+    }
+
+    const query = {
+      text: "DELETE FROM users WHERE user_id = $1",
+      values: [userId],
+    };
+
     const result = await pool.query(query);
     return result.rows?.length ? result.rows[0] : null;
   } catch (err) {
