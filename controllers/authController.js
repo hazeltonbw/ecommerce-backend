@@ -28,9 +28,8 @@ const registerNewUser = async (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.redirect("/");
     });
-    //res.status(200).send({ ...user, ...cart });
+    res.status(200).send(user);
   } catch (err) {
     next(err);
   }
