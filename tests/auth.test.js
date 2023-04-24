@@ -32,25 +32,33 @@ describe("Auth route", () => {
     fname: expect.any(String),
     lname: expect.any(String),
     email: expect.any(String),
-    password: expect.any(String),
     isadmin: expect.any(Boolean),
   };
 
-  // afterEach(async () => {
-  //   // after each test make sure our mock user doesn't exist.
-  //   // this will ensure every test has a fresh start
-  //   // and doesn't rely on stale data
-
-  //   const userToDelete = await User.findUserByEmail(body.email);
-  //   if (userToDelete) {
-  //     await User.deleteUserById(userToDelete.user_id);
-  //   }
-  // });
+  afterAll(async () => {
+    // after each test make sure our mock user doesn't exist.
+    // this will ensure every test has a fresh start
+    // and doesn't rely on stale data
+    // try {
+    //   await User.deleteUserById(users[0].user_id);
+    // } catch (err) {}
+    try {
+      const user_id = users[0].user_id;
+      await request(app).delete(`/users/${user_id}`);
+    } catch (err) {
+      console.log("Unable to find user with that id.");
+    }
+  });
 
   describe("POST /register", () => {
     // register our test user
     beforeAll(async () => {
       response = await request(app).post("/auth/register").send(users[0]);
+    });
+
+    afterAll(async () => {
+      const user_id = users[0].user_id;
+      await request(app).delete(`/users/${user_id}`);
     });
 
     describe("given a username and password in the body", () => {
@@ -67,13 +75,13 @@ describe("Auth route", () => {
       beforeAll(async () => {
         // Create our user
         response = await request(app).post("/auth/register").send(users[0]);
-        userId = response.body.user_id;
         // run again as to replicate "duplicating" user
         // store in response so we can test against it
         response = await request(app).post("/auth/register").send(users[0]);
       });
       afterAll(async () => {
-        await request(app).delete(`/users/${userId}`);
+        const user_id = users[0].user_id;
+        await request(app).delete(`/users/${user_id}`);
       });
 
       it("should return HTTP 409 with error message in body", async () => {
@@ -108,7 +116,7 @@ describe("Auth route", () => {
     });
   });
 
-  describe("POST /login/password", () => {
+  describe("POST /login", () => {
     describe("when the username doesn't exist in the database", () => {
       // throw createError(401, "Incorrect username or password");
       let response;
@@ -136,7 +144,6 @@ describe("Auth route", () => {
       beforeAll(async () => {
         // Create a user first
         response = await request(app).post("/auth/register").send(users[0]);
-        userId = response.body.user_id;
 
         // Then send a bad password with the new users email
         response = await request(app).post("/auth/login").send({
@@ -145,7 +152,8 @@ describe("Auth route", () => {
         });
       });
       afterAll(async () => {
-        await request(app).delete(`/users/${userId}`);
+        const user_id = users[0].user_id;
+        await request(app).delete(`/users/${user_id}`);
       });
 
       // afterAll(async () => {
@@ -171,21 +179,19 @@ describe("Auth route", () => {
     describe("when the given credentials from the user match the database", () => {
       beforeAll(async () => {
         response = await request(app).post("/auth/register").send(users[0]);
-        userId = response.body.user_id;
-        response = await request(app)
-          .post("/auth/login/password")
-          .send(users[0]);
+        response = await request(app).post("/auth/login").send(users[0]);
       });
 
       afterAll(async () => {
-        await request(app).delete(`/users/${userId}`);
+        const user_id = users[0].user_id;
+        await request(app).delete(`/users/${user_id}`);
       });
 
-      it.skip("should return HTTP 200", async () => {
-        expect(response.statusCode).toBe(302);
+      it("should return HTTP 200", async () => {
+        expect(response.statusCode).toBe(200);
       });
 
-      it.skip("should return an object containing the user info", () => {
+      it("should return an object containing the user info", () => {
         expect(response.body).toEqual(userObject);
       });
     });
@@ -212,7 +218,13 @@ describe("Auth route", () => {
   describe("POST /logout", () => {
     let response;
     beforeAll(async () => {
+      response = await request(app).post("/auth/register").send(users[0]);
       response = await request(app).post("/auth/logout");
+    });
+
+    afterAll(async () => {
+      const user_id = users[0].user_id;
+      await request(app).delete(`/users/${user_id}`);
     });
 
     it("should return HTTP 302", () => {
