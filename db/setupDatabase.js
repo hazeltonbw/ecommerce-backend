@@ -29,6 +29,7 @@ const { DB } = require("../config");
         title text NOT NULL,
         price numeric(5, 2) NOT NULL,
         description text,
+        imgURL text,
         PRIMARY KEY (product_id)
     );
   `;
