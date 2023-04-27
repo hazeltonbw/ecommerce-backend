@@ -22,6 +22,6 @@ module.exports = (app) => {
     const { message } = err;
     const status = err.status || 500;
 
-    return res.status(status).send({ message });
+    return res.status(status).send(message);
   });
 };
