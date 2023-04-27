@@ -4,10 +4,10 @@
   "description": "eCommerce Backend portion",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development nodemon -r dotenv/config server.js",
+    "start": "cross-env NODE_ENV=development nodemon -r dotenv/config server.js",
     "create-db": "node db/setupDatabase.js",
     "seed-db": "node db/seedDatabase.js",
-    "test": "NODE_ENV=test jest --forceExit --runInBand"
+    "test": "cross-env NODE_ENV=test jest --forceExit --runInBand"
   },
   "author": "",
   "license": "ISC",
