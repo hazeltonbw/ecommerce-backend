@@ -166,13 +166,14 @@ const addProduct = async (data) => {
   const { title, price, description, category, image } = data;
   // first get category id
   let category_id = await getCategoryId(category);
+
   // if there's no category, let's just create it (fix later when we have a proper store)
-  if (!category_id) {
+  if (category_id === null) {
     category_id = await createCategory(category);
   }
 
   const query = {
-    text: `INSERT INTO products(category_id, title, price, description, imgURL) values($1,$2,$3,$4,$5) RETURNING *`,
+    text: `INSERT INTO products(category_id, title, price, description, "imgURL") values($1,$2,$3,$4,$5) RETURNING *`,
     values: [category_id, title, price, description, image],
   };
 
