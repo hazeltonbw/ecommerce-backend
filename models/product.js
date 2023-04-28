@@ -144,7 +144,7 @@ const deleteProductById = async (id) => {
 
 const getCategoryId = async (category) => {
   const query = {
-    text: "SELECT category_id FROM categories WHERE name ILIKE '%'||$1||'%'",
+    text: "SELECT category_id FROM categories WHERE name = $1",
     values: [category],
   };
 
