@@ -154,7 +154,7 @@ const getCategoryId = async (category) => {
 
 const createCategory = async (category) => {
   const query = {
-    text: `INSERT INTO categories(name) values($1)`,
+    text: `INSERT INTO categories(name) values($1) RETURNING category_id`,
     values: [category],
   };
 
