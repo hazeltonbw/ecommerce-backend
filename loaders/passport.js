@@ -25,8 +25,8 @@ module.exports = (app) => {
       console.log("Attempting to deserialize user_id".red);
       let user = await userModel.getUserById(user_id);
       const cart_id = await cartModel.getCartIdByUserId(user_id);
-      console.log(user, "DESERIALIZE USER");
       user = { ...user, cart_id };
+      console.log(user, "DESERIALIZE USER");
       done(null, user);
     } catch (err) {
       done(err);
@@ -38,7 +38,6 @@ module.exports = (app) => {
     new LocalStrategy(
       { usernameField: "email", passwordField: "password" }, //opts
       async (email, password, done) => {
-        debugger;
         try {
           // Check for user in PostgreSQL database
           const user = await User.loginUser({ email, password });
