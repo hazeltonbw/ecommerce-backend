@@ -5,7 +5,7 @@ const { isLoggedIn, isAdmin } = require("../middleware/auth");
 const { hasItemsInCart, resetCart } = require("../middleware/cart");
 
 module.exports = (app) => {
-  app.use("/cart", isLoggedIn, router);
+  app.use("/cart", router);
   router.get("/", cartController.getUsersCart);
   router.put("/", cartController.editProductInCart);
   router.delete("/", cartController.deleteProductInCart);
