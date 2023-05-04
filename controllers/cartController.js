@@ -22,7 +22,9 @@ const getCarts = async (req, res, next) => {
 };
 
 const addProductToCart = async (req, res, next) => {
-  const data = req.body;
+  const { product_id, qty } = req.body;
+  const { cart_id } = req.user;
+  const data = { product_id, qty, cart_id };
   try {
     const response = await cartModel.addProductToCart(data);
     res.status(200).send(response);
@@ -32,7 +34,9 @@ const addProductToCart = async (req, res, next) => {
 };
 
 const editProductInCart = async (req, res, next) => {
-  const data = req.body;
+  const { product_id, qty } = req.body;
+  const { cart_id } = req.user;
+  const data = { cart_id, product_id, qty };
   try {
     const response = await cartModel.editProductInCart(data);
     res.status(200).send(response);
@@ -42,7 +46,10 @@ const editProductInCart = async (req, res, next) => {
 };
 
 const deleteProductInCart = async (req, res, next) => {
-  const data = req.body;
+  const { product_id } = req.body;
+  const { cart_id } = req.user;
+  const data = { cart_id, product_id };
+
   try {
     const response = await cartModel.deleteProductInCart(data);
     res.status(200).send(response);
