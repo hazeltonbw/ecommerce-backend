@@ -17,7 +17,7 @@ const getProducts = async (queryOpts) => {
     }
 
     // If there is no query options, get all products
-    const statement = `SELECT product_id, c.name as category, title, price, description, "imgURL" FROM products JOIN categories c using(category_id) ORDER BY product_id ASC`;
+    const statement = `SELECT product_id, c.name as category, title, price, description, "imgURL" img FROM products JOIN categories c using(category_id) ORDER BY product_id ASC`;
     const result = await pool.query(statement);
     return result.rows;
   } catch (err) {

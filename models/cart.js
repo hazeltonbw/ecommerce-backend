@@ -10,16 +10,17 @@ const getCarts = async () => {
 
 const getCartByUserId = async (user_id) => {
   const query = {
-    text: `SELECT products.title product_title, products.price product_price,
-            products.description product_description, categories.name category_name, 
-            carts.created, carts.modified, cart_has_products.qty, 
-            sum(cart_has_products.qty * products.price) as total
-	         FROM carts 
-            join cart_has_products using(cart_id)
-			      join products using(product_id)
-			      join categories using(category_id)
-           WHERE user_id = $1
-           GROUP BY 1,2,3,4,5,6,7;`,
+    text: `
+      SELECT products.product_id product_id, products.title title, products.price price, products."imgURL" img,
+      products.description description, categories.name category, 
+      cart_has_products.qty, 
+      sum(cart_has_products.qty * products.price) as total
+      FROM carts 
+      join cart_has_products using(cart_id)
+      join products using(product_id)
+      join categories using(category_id)
+      WHERE user_id = $1
+      GROUP BY 1,2,3,4,5,6,7;`,
     values: [user_id],
   };
   const result = await pool.query(query);
