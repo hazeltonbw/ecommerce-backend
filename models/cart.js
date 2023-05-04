@@ -41,8 +41,14 @@ const createCart = async (user_id) => {
 
 const addProductToCart = async (data) => {
   const { cart_id, product_id, qty } = data;
+
   const query = {
-    text: `INSERT INTO cart_has_products(cart_id, product_id, qty) values($1, $2, $3) RETURNING *`,
+    text: `INSERT INTO cart_has_products (cart_id, product_id, qty) 
+    values($1, $2, $3) 
+    ON CONFLICT(cart_id, product_id) 
+    DO UPDATE SET qty = 
+      (select qty from cart_has_products where cart_id = $1 and product_id = $2) + $3;
+    `,
     values: [cart_id, product_id, qty],
   };
   const result = await pool.query(query);

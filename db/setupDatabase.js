@@ -39,8 +39,8 @@ const { DB } = require("../config");
 
     CREATE TABLE IF NOT EXISTS public.${DB.CART_HAS_PRODUCTS_TABLE}
     (
-        cart_id integer NOT NULL,
-        product_id integer NOT NULL,
+        cart_id integer NOT NULL PRIMARY KEY,
+        product_id integer NOT NULL PRIMARY KEY,
         qty integer NOT NULL
     );
   `;
