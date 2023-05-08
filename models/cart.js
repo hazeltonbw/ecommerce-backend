@@ -24,15 +24,16 @@ const getCartByUserId = async (user_id) => {
     values: [user_id],
   };
   const result = await pool.query(query);
-  return result.rows?.length ? result.rows : null;
+  //console.log(result.rows);
+  return result.rows.length ? result.rows : null;
 };
 
 const createCart = async (user_id) => {
-  const date = new Date().toISOString();
   const query = {
     text: `INSERT INTO carts(user_id, created, modified)
-              values($1, $2, $3) RETURNING *`,
-    values: [user_id, date, date],
+              values($1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
+              RETURNING *`,
+    values: [user_id],
   };
 
   const result = await pool.query(query);
@@ -42,12 +43,19 @@ const createCart = async (user_id) => {
 const addProductToCart = async (data) => {
   const { cart_id, product_id, qty } = data;
 
+  // If the user adds the same product twice, just update the quantity!
   const query = {
-    text: `INSERT INTO cart_has_products (cart_id, product_id, qty) 
-    values($1, $2, $3) 
+    text: `
+    WITH modified_date AS (
+      UPDATE carts SET modified = CURRENT_TIMESTAMP
+      WHERE cart_id = $1
+      RETURNING modified
+    )
+    INSERT INTO cart_has_products (cart_id, product_id, qty) 
+      values($1, $2, $3) 
     ON CONFLICT(cart_id, product_id) 
-    DO UPDATE SET qty = 
-      (select qty from cart_has_products where cart_id = $1 and product_id = $2) + $3;
+      DO UPDATE SET qty = 
+        (select qty from cart_has_products where cart_id = $1 and product_id = $2) + $3;
     `,
     values: [cart_id, product_id, qty],
   };
@@ -66,7 +74,13 @@ const getCartIdByUserId = async (user_id) => {
 
 const resetCart = async (cart_id) => {
   const query = {
-    text: `DELETE FROM cart_has_products WHERE cart_id = $1`,
+    text: `
+    WITH modified_date AS (
+      UPDATE carts SET modified = CURRENT_TIMESTAMP
+      WHERE cart_id = $1
+      RETURNING modified
+    )
+    DELETE FROM cart_has_products WHERE cart_id = $1`,
     values: [cart_id],
   };
   const result = await pool.query(query);
@@ -76,7 +90,13 @@ const resetCart = async (cart_id) => {
 const editProductInCart = async (data) => {
   const { product_id, cart_id, qty } = data;
   const query = {
-    text: `UPDATE cart_has_products SET qty = $1 WHERE product_id = $2 and cart_id = $3`,
+    text: `
+    WITH modified_date AS (
+      UPDATE carts SET modified = CURRENT_TIMESTAMP
+      WHERE cart_id = $3
+      RETURNING modified
+    )
+    UPDATE cart_has_products SET qty = $1 WHERE product_id = $2 and cart_id = $3`,
     values: [qty, product_id, cart_id],
   };
   const result = await pool.query(query);
@@ -86,7 +106,13 @@ const editProductInCart = async (data) => {
 const deleteProductInCart = async (data) => {
   const { product_id, cart_id } = data;
   const query = {
-    text: `DELETE FROM cart_has_products WHERE product_id = $1 and cart_id = $2`,
+    text: `
+    WITH modified_date AS (
+      UPDATE carts SET modified = CURRENT_TIMESTAMP
+      WHERE cart_id = $2
+      RETURNING modified
+    )
+    DELETE FROM cart_has_products WHERE product_id = $1 and cart_id = $2`,
     values: [product_id, cart_id],
   };
   const result = await pool.query(query);
@@ -95,7 +121,13 @@ const deleteProductInCart = async (data) => {
 
 const deleteAllProductsInCart = async (cart_id) => {
   const query = {
-    text: `DELETE FROM cart_has_products WHERE cart_id = $1`,
+    text: `
+    WITH modified_date AS (
+      UPDATE carts SET modified = CURRENT_TIMESTAMP
+      WHERE cart_id = $1
+      RETURNING modified
+    )
+    DELETE FROM cart_has_products WHERE cart_id = $1`,
     values: [cart_id],
   };
 
