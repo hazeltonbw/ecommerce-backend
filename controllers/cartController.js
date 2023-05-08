@@ -6,7 +6,7 @@ const getUsersCart = async (req, res, next) => {
   try {
     const { user_id } = req.user;
     const cart = await cartModel.getCartByUserId(user_id);
-    res.status(200).send(cart);
+    res.status(200).json(cart);
   } catch (err) {
     next(err);
   }
@@ -15,7 +15,7 @@ const getUsersCart = async (req, res, next) => {
 const getCarts = async (req, res, next) => {
   try {
     const response = await cartModel.getCarts();
-    res.status(200).send(response);
+    res.status(200).json(response);
   } catch (err) {
     next(err);
   }
