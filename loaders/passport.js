@@ -13,8 +13,10 @@ module.exports = (app) => {
   // Set method to serialize data to store in cookie
   // Registers a function used to serialize user objects into the session.
   passport.serializeUser((user, done) => {
-    console.log("Attempting to serialize user".red);
-    console.log(user);
+    console.log(
+      `Attempting to serialize user ${user.user_id}:${user.email}`.red
+    );
+    //console.log(user);
     done(null, user.user_id);
   });
 
@@ -22,11 +24,10 @@ module.exports = (app) => {
   // Registers a function used to deserialize user objects out of the session.
   passport.deserializeUser(async (user_id, done) => {
     try {
-      console.log("Attempting to deserialize user_id".red);
+      console.log(`Attempting to deserialize user ${user_id}`.red);
       let user = await userModel.getUserById(user_id);
       const cart_id = await cartModel.getCartIdByUserId(user_id);
       user = { ...user, cart_id };
-      console.log(user, "DESERIALIZE USER");
       done(null, user);
     } catch (err) {
       done(err);
@@ -41,7 +42,7 @@ module.exports = (app) => {
         try {
           // Check for user in PostgreSQL database
           const user = await User.loginUser({ email, password });
-          console.log(user, "LocalStrategy");
+          //console.log(user, "LocalStrategy");
           done(null, user);
         } catch (err) {
           done(err);
