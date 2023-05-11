@@ -12,6 +12,8 @@ This repo includes an `example.env` file that contains important environment var
 
 To easily populate your database with the requisite tables, run the command `npm run create-db` in your terminal. This will create tables in your database if they do not already exist. The configuration for this script can be found in the `setupDatabase.js` file located in the root of this project.
 
+Sample products can be found in /resources/products.sql, run this file in pgAdmin to add sample products to the database.
+
 Once the app is running locally, you can access the API at `http://localhost:<your-port>`
 
 # Todo / WIP
