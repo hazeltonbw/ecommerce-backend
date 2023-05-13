@@ -11,5 +11,5 @@ module.exports = (app) => {
   router.delete("/", cartController.deleteProductInCart);
   router.post("/add", cartController.addProductToCart);
   router.get("/admin", isAdmin, cartController.getCarts);
-  router.post("/checkout", hasItemsInCart, cartController.checkout);
+  router.post("/checkout", isLoggedIn, cartController.checkout);
 };
