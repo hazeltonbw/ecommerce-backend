@@ -2,7 +2,18 @@ const isLoggedIn = async (req, res, next) => {
   if (req.isAuthenticated() && req?.user != null) {
     return next();
   }
-  res.redirect("/auth/login");
+
+  if (req.session) {
+    console.log(req.session);
+    req.session.destroy();
+  }
+  // If the user is not logged in, 
+  // redirect them to the login page.
+  res.status(200).json({
+    success: false,
+    redirectUrl: "/auth/login",
+    message: "Unauthorized"
+  });
 };
 
 const isAdmin = async (req, res, next) => {
