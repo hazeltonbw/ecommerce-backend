@@ -23,7 +23,8 @@ function dynamicOriginConfig(origin, callback) {
 module.exports = (app) => {
   app.use(
     cors({
-      origin: "http://localhost:5173", //TODO: Figure out how to incorporate dynamicOriginConfig() here
+      //TODO: Figure out how to incorporate dynamicOriginConfig() here
+      origin: "http://localhost:5173",
       credentials: true,
     })
   );
@@ -42,18 +43,26 @@ module.exports = (app) => {
     const logger = require("morgan");
     app.use(
       logger(":method :url :status :response-time :date", {
-        skip: (req, res) => process.env.NODE_ENV === "test",
+        skip: () => process.env.NODE_ENV === "test",
       })
     );
   }
 
-  // Transforms raw string of req.body into JSON
-  app.use(bodyParser.json());
+  app.use((req, res, next) => {
+    // If the request is for the webhook, the body
+    // must be a string and not parsed as JSON. 
+    // https://github.com/stripe/stripe-node/blob/master/examples/webhook-signing/express/main.ts
+    if (req.originalUrl === '/orders/webhook') {
+      next();
+    } else {
+      // Transforms raw string of req.body into JSON
+      bodyParser.json()(req, res, next);
+    }
+  }
+  );
 
   // Parses urlencoded bodies
   app.use(bodyParser.urlencoded({ extended: true }));
-
-  //app.set("trust proxy", 1);
 
   // Creates a session
   app.use(
