@@ -1,4 +1,3 @@
-const { resetCart } = require("../middleware/cart");
 const cartModel = require("../models/cart");
 const orderModel = require("../models/order");
 
