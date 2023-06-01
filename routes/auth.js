@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
-const { isLoggedIn, isAlreadyLoggedIn } = require("../middleware/auth");
-const { ExpressErrorHandler } = require("../helperFunctions");
+const { isAlreadyLoggedIn } = require("../middleware/auth");
 
 module.exports = (app, passport) => {
   app.use("/auth", router);
@@ -11,7 +10,7 @@ module.exports = (app, passport) => {
   router.post(
     "/login",
     passport.authenticate("local"),
-    async (req, res, next) => {
+    async (req, res) => {
       const user = req.user;
       if (!user) {
         // we didnt get a user back from passport authenticate
