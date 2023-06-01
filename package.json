@@ -23,7 +23,8 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pg": "^8.8.0",
-    "pg-promise": "^11.2.0"
+    "pg-promise": "^11.2.0",
+    "stripe": "^12.5.0"
   },
   "devDependencies": {
     "@types/jest": "^29.2.5",
