@@ -16,11 +16,34 @@ Sample products can be found in /resources/products.sql, run this file in pgAdmi
 
 Once the app is running locally, you can access the API at `http://localhost:<your-port>`
 
+## Stripe 
+
+Stripe uses WebHooks to handle post-payment processing, such as updating the database.
+In order to use the webhook in a local environment, you must run a few commands to tell 
+Stripe to forward events to the webhook route.
+
+First, make sure you are logged in to the Stripe CLI.
+`stripe login`
+
+Then, forward events to the orders route. 
+`stripe listen --forward-to localhost:4000/orders/webhook`
+
+We are interested in a couple of events:
+1. 'payment_intent.succeeded'
+2. 'charge.succeeded'
+
+Errors are handled in the front-end, so we won't worry about that in the back-end.
+
+When these events are triggered, we will update the database with the newly created order.
+
+For production, you will want to [setup an endpoint URL for Stripe to
+forward events to.](https://dashboard.stripe.com/test/webhooks/create?endpoint_location=hosted)
+
 # Todo / WIP
 
 - [x] [Database Schema and Seed](https://github.com/hazeltonbw/ecommerce-backend/issues/5)
 - [x] Middleware
 - [x] Cart
+- [x] Checkout
 - [ ] Orders
 - [ ] Testing
-- [ ] Checkout
