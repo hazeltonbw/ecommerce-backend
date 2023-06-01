@@ -27,7 +27,10 @@ module.exports = {
   SESSION: {
     COOKIE: {
       secure: false,
+      // Week long cookie age
+      // 24 hours * 60 mins * 60 secs * 1000ms
       maxAge: 24 * 60 * 60 * 1000,
+      // maxAge: 10 * 1000, // max age = 10 secs
     },
     SESSION_SECRET: process.env.SESSION_SECRET,
   },
