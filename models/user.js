@@ -51,7 +51,12 @@ const createUser = async (data) => {
 
   try {
     const result = await pool.query(query);
-    return result.rows?.length ? result.rows[0] : null;
+    if (result.rows.length) {
+      // Don't return password to client
+      delete result.rows[0].password;
+      return result.rows[0];
+    }
+    return null
   } catch (err) {
     //console.error(err);
     throw new Error(err);
