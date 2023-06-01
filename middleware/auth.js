@@ -3,8 +3,8 @@ const isLoggedIn = async (req, res, next) => {
     return next();
   }
 
+  // If the user still has a session attached
   if (req.session) {
-    console.log(req.session);
     req.session.destroy();
   }
   // If the user is not logged in, 
@@ -12,7 +12,7 @@ const isLoggedIn = async (req, res, next) => {
   res.status(200).json({
     success: false,
     redirectUrl: "/auth/login",
-    message: "Unauthorized"
+    error: "Unauthenticated"
   });
 };
 
@@ -20,7 +20,7 @@ const isAdmin = async (req, res, next) => {
   if (req.user?.is_admin) {
     return next();
   }
-  res.status(401).send({ message: "Unauthorized" });
+  res.status(401).send({ message: "Unauthenticated" });
 };
 
 const isAlreadyLoggedIn = async (req, res) => {
