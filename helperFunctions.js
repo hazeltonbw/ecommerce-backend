@@ -19,9 +19,9 @@ function enviornmentVariablesChecker(dotenv) {
 
 class ExpressErrorHandler extends Error {
   constructor(status, message) {
-    super();
+    super(message);
     this.status = status;
-    this.message = message;
+    this.name = "ExpressErrorHandler"
   }
-}
+};
 module.exports = { enviornmentVariablesChecker, ExpressErrorHandler };
