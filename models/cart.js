@@ -11,7 +11,7 @@ const getCarts = async () => {
 const getCartByUserId = async (user_id) => {
   const query = {
     text: `
-      SELECT products.product_id product_id, products.title title, products.price price, products."imgURL" img,
+      SELECT products.product_id product_id, products.title title, products.price price, products.url img,
       products.description description, categories.name category, 
       cart_has_products.qty, 
       sum(cart_has_products.qty * products.price) as total

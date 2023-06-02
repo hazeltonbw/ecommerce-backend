@@ -29,7 +29,7 @@ const { DB } = require("../config");
         title text NOT NULL,
         price numeric(5, 2) NOT NULL,
         description text,
-        imgURL text,
+        url text,
         PRIMARY KEY (product_id)
     );
   `;
@@ -39,9 +39,10 @@ const { DB } = require("../config");
 
     CREATE TABLE IF NOT EXISTS public.${DB.CART_HAS_PRODUCTS_TABLE}
     (
-        cart_id integer NOT NULL PRIMARY KEY,
-        product_id integer NOT NULL PRIMARY KEY,
-        qty integer NOT NULL
+        cart_id integer NOT NULL,
+        product_id integer NOT NULL,
+        qty integer NOT NULL,
+        PRIMARY KEY (cart_id, product_id)
     );
   `;
 
@@ -192,20 +193,20 @@ const { DB } = require("../config");
 
    */
 
-    try {
-      await dbPostGres.connect();
-      await dbPostGres.query(createDatabase);
-    } catch (error) {
-      if (error.code == "42P04") {
-        console.error(`${DB.PGDATABASE} already exists`);
-      } else {
-        console.error(error);
-      }
-    } finally {
-      dbPostGres.end();
-      console.debug(`Switching from postgres to ${DB.PGDATABASE}.`);
+    // try {
+    //   await dbPostGres.connect();
+    //   await dbPostGres.query(createDatabase);
+    // } catch (error) {
+    //   if (error.code == "42P04") {
+    //     console.error(`${DB.PGDATABASE} already exists`);
+    //   } else {
+    //     console.error(error);
+    //   }
+    // } finally {
+    //   dbPostGres.end();
+    //   console.debug(`Switching from postgres to ${DB.PGDATABASE}.`);
       await dbECommerceProjectTest.connect();
-    }
+    // }
 
     // Create tables on database
     await dbECommerceProjectTest.query(createCartsTable);

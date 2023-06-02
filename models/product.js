@@ -17,7 +17,7 @@ const getProducts = async (queryOpts) => {
     }
 
     // If there is no query options, get all products
-    const statement = `SELECT product_id, c.name as category, title, price, description, "imgURL" img FROM products JOIN categories c using(category_id) ORDER BY product_id ASC`;
+    const statement = `SELECT product_id, c.name as category, title, price, description, url img FROM products JOIN categories c using(category_id) ORDER BY product_id ASC`;
     const result = await pool.query(statement);
     return result.rows;
   } catch (err) {
@@ -173,7 +173,7 @@ const addProduct = async (data) => {
   }
 
   const query = {
-    text: `INSERT INTO products(category_id, title, price, description, "imgURL") values($1,$2,$3,$4,$5) RETURNING *`,
+    text: `INSERT INTO products(category_id, title, price, description, url) values($1,$2,$3,$4,$5) RETURNING *`,
     values: [category_id, title, price, description, image],
   };
 

@@ -12,7 +12,7 @@ values
   ('electronics');
 
 INSERT INTO
-  products(title, price, description, category_id, "imgURL")
+  products(title, price, description, category_id, url)
 values
   (
     'Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90DMNXZA) – Super Ultrawide Screen QLED ',
@@ -26,7 +26,7 @@ values
       where
         c.name = 'electronics'
     ),
-    'https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg',
+    'https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg'
   ),
   (
     'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
@@ -126,8 +126,3 @@ values
     ),
     'https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg'
   );
-
-select
-  *
-from
-  products;
