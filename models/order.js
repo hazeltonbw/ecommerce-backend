@@ -3,15 +3,6 @@ const createError = require("http-errors");
 
 const getOrders = async (user_id) => {
   const query = {
-    //     text: `
-    //       select o.order_id, o.date, o.status, ohp.product_id, ohp.qty, 
-    //       p.title, p."imgURL" as img, sum(ohp.qty * p.price) as total from orders o
-    //       join order_has_products ohp using(order_id)
-    //       join products p using(product_id)
-    //       where user_id = $1
-    //       GROUP BY 1,2,3,4,5,6,7
-    //       ORDER BY 1 DESC;
-    // `,
     text: `
       select 
         ohp.order_id, o.date, o.status, SUM(ohp.qty * p.price) as order_total,
@@ -29,23 +20,6 @@ const getOrders = async (user_id) => {
       group by ohp.order_id, o.date, o.status
       order by o.date desc;
     `,
-
-    //     text: `
-    //       select 
-    //         ohp.order_id, o.date, o.status, SUM(ohp.qty * p.price) as order_total,
-    //           json_build_object(
-    //             'product', json_agg(p.*),
-    //             'qty', json_agg(ohp.qty),
-    //             'total', json_agg(ohp.qty * p.price)
-    //           ) AS products
-    //       from order_has_products ohp
-    //       join orders o using(order_id)
-    //       join products p using(product_id)
-    //       where user_id = $1
-    //       group by ohp.order_id, o.date, o.status
-    //       order by o.date desc;
-
-    // `,
     values: [user_id],
   };
 
@@ -57,14 +31,6 @@ const getOrderById = async (data) => {
 
   const { user_id, order_id } = data;
   const query = {
-    // text: `SELECT order_id, product_id, qty, date, status
-    //         title, price, c.name as category, description
-    //         FROM order_has_products ohp 
-    //         join products   p using(product_id)
-    //         join orders     o using(order_id)
-    //         join categories c using(category_id)
-    //         where ohp.order_id = $1 and o.user_id = $2
-    // `,
     text: `
       select 
         ohp.order_id, o.date, o.status, SUM(ohp.qty * p.price) as order_total,

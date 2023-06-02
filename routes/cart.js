@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const cartController = require("../controllers/cartController");
 const { isLoggedIn, isAdmin } = require("../middleware/auth");
-const { hasItemsInCart, resetCart } = require("../middleware/cart");
 
 module.exports = (app) => {
   app.use("/cart", isLoggedIn, router);

@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { isAdmin, isLoggedIn } = require("../middleware/auth");
 const productController = require("../controllers/productController");
 
 module.exports = (app) => {
