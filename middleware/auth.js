@@ -20,7 +20,11 @@ const isAdmin = async (req, res, next) => {
   if (req.user?.is_admin) {
     return next();
   }
-  res.status(401).send({ message: "Unauthenticated" });
+  res.status(200).json({
+    success: false,
+    redirectUrl: "/auth/login",
+    error: "Unauthenticated"
+  });
 };
 
 const isAlreadyLoggedIn = async (req, res) => {

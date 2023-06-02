@@ -5,8 +5,8 @@ const userController = require("../controllers/userController");
 
 module.exports = (app) => {
   app.use("/users", router);
-  router.get("/", userController.getUsers);
-  router.delete("/:id", userController.deleteUserById);
-  router.get("/:id", userController.getUserById);
-  router.put("/:id", userController.updateUserById);
+  router.get("/", isAdmin, userController.getUsers);
+  router.delete("/:id", isAdmin, userController.deleteUserById);
+  router.get("/:id", isLoggedIn, userController.getUserById);
+  router.put("/:id", isLoggedIn, userController.updateUserById);
 };
