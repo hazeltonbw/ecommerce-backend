@@ -203,8 +203,8 @@ const { DB } = require("../config");
     //     console.error(error);
     //   }
     // } finally {
-    //   dbPostGres.end();
-    //   console.debug(`Switching from postgres to ${DB.PGDATABASE}.`);
+      // dbPostGres.end();
+      // console.debug(`Switching from postgres to ${DB.PGDATABASE}.`);
       await dbECommerceProjectTest.connect();
     // }
 
