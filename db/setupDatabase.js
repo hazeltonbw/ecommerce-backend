@@ -53,7 +53,7 @@ const { DB } = require("../config");
     (
         order_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
         user_id integer NOT NULL,
-        date date NOT NULL,
+        date timestamp with time zone NOT NULL,
         status text NOT NULL,
         PRIMARY KEY (order_id)
     );
@@ -203,9 +203,9 @@ const { DB } = require("../config");
     //     console.error(error);
     //   }
     // } finally {
-      // dbPostGres.end();
-      // console.debug(`Switching from postgres to ${DB.PGDATABASE}.`);
-      await dbECommerceProjectTest.connect();
+    // dbPostGres.end();
+    // console.debug(`Switching from postgres to ${DB.PGDATABASE}.`);
+    await dbECommerceProjectTest.connect();
     // }
 
     // Create tables on database
