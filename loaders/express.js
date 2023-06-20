@@ -6,6 +6,7 @@ const pgPool = require("../db/index");
 const config = require("../config");
 
 module.exports = (app) => {
+  console.log(config.DB.ORIGIN_URL)
   app.use(
     cors({
       // origin: "http://localhost:5173",
