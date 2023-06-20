@@ -5,7 +5,7 @@ const { enviornmentVariablesChecker } = require("./helperFunctions");
 By using the npm package `dotenv` we can use the .env file at root. You may not want to do it this way,
 but either way the npm script doesn't seem to be picking up the .env in root.
 */
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv").config({ path: "./.env" });
 enviornmentVariablesChecker(dotenv);
 module.exports = {
   PORT: process.env.PORT,

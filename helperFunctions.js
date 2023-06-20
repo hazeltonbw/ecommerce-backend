@@ -3,6 +3,9 @@ When passed a `dotenv` file from the `dotenv` npm package, this function
 will determine if it's being properly parsed without revealing the secret 
 details of the env file
 */
+require("dotenv").config({
+  path: "../.env"
+});
 
 require("colors");
 function enviornmentVariablesChecker(dotenv) {

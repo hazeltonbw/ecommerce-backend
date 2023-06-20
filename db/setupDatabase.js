@@ -2,10 +2,6 @@ const { Client } = require("pg");
 const { DB } = require("../config");
 const { checkIfBuildIsProduction } = require("../helperFunctions");
 
-require("dotenv").config({
-  path: "../.env",
-});
-
 (async () => {
 
   const isProduction = checkIfBuildIsProduction();
