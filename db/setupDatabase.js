@@ -2,15 +2,17 @@ const { Client } = require("pg");
 const { DB } = require("../config");
 const { checkIfBuildIsProduction } = require("../helperFunctions");
 
-(async () => {
+require("dotenv").config({ path: "../.env" })
 
-  const isProduction = checkIfBuildIsProduction();
-  console.log(isProduction, "IS PRODUCTION SETUP DB")
-  const createDatabase = `
+  (async () => {
+
+    const isProduction = checkIfBuildIsProduction();
+    console.log(isProduction, "IS PRODUCTION SETUP DB")
+    const createDatabase = `
     CREATE DATABASE ${DB.PGDATABASE};
   `;
 
-  const createCartsTable = `
+    const createCartsTable = `
     CREATE TABLE IF NOT EXISTS public.${DB.CARTS_TABLE}
     (
         cart_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -21,7 +23,7 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
     );
   `;
 
-  const createProductsTable = `
+    const createProductsTable = `
     CREATE TABLE IF NOT EXISTS public.${DB.PRODUCTS_TABLE}
     (
         product_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -34,7 +36,7 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
     );
   `;
 
-  const createCartHasProductsTable = `
+    const createCartHasProductsTable = `
     CREATE TABLE IF NOT EXISTS public.${DB.CART_HAS_PRODUCTS_TABLE}
     (
         cart_id integer NOT NULL,
@@ -44,7 +46,7 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
     );
   `;
 
-  const createOrdersTable = `
+    const createOrdersTable = `
     CREATE TABLE IF NOT EXISTS public.${DB.ORDERS_TABLE}
     (
         order_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -55,7 +57,7 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
     );
   `;
 
-  const createUsersTable = `
+    const createUsersTable = `
     CREATE TABLE IF NOT EXISTS public.${DB.USERS_TABLE}
     (
         user_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -68,7 +70,7 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
     );
   `;
 
-  const createOrderHasProductsTable = `
+    const createOrderHasProductsTable = `
     CREATE TABLE IF NOT EXISTS public.${DB.ORDER_HAS_PRODUCTS_TABLE}
     (
         order_id integer NOT NULL,
@@ -77,7 +79,7 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
     );
   `;
 
-  const createCategoryTable = `
+    const createCategoryTable = `
     CREATE TABLE IF NOT EXISTS public.${DB.CATEGORIES_TABLE}
     (
         category_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -86,7 +88,7 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
     );
   `;
 
-  const createUserSessionsTable = `
+    const createUserSessionsTable = `
     CREATE TABLE IF NOT EXISTS "${DB.USER_SESSIONS_TABLE}" (
       "sid" varchar NOT NULL COLLATE "default",
       "sess" json NOT NULL,
@@ -95,7 +97,7 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
     WITH (OIDS=FALSE);
   `;
 
-  const addConstraints = `
+    const addConstraints = `
     ALTER TABLE IF EXISTS "${DB.USER_SESSIONS_TABLE}" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
     CREATE INDEX "IDX_session_expire" ON "${DB.USER_SESSIONS_TABLE}" ("expire");
@@ -146,77 +148,77 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
         ON DELETE CASCADE;
   `;
 
-  try {
-    // Make a temporary client to connect to postgres in order to create database.
+    try {
+      // Make a temporary client to connect to postgres in order to create database.
 
-    // const dbPostGres = new Client({
-    //   user: DB.PGUSER,
-    //   host: DB.PGHOST,
-    //   database: "postgres",
-    //   password: DB.PGPASSWORD,
-    //   port: DB.PGPORT,
-    // });
-    // Client for actual ecommerce project database.
-    const dbECommerceProjectTest =
-      isProduction
-        ? new Client({
-          connectionString: DB.LIVE_DATABASE_URL,
-          ssl: {
-            rejectUnauthorized: false
-          }
-        })
-        : new Client({
-          user: DB.PGUSER,
-          host: DB.PGHOST,
-          database: DB.PGDATABASE,
-          password: DB.PGPASSWORD,
-          port: DB.PGPORT,
-        });
-    /*
-    @hazeltonbw, although this script is able to create the schema of the tables, it does not create the database itself.
-    You are not doing anything special with the database itself, I think the script is close enough to making it 
-    for contributors.
-    */
-    /*
-   @hazeltonbw First we'll connect to postgres in order to create the database. Typically postgres is the default db in PSQL. 
-   There is a chance that maybe a contributor doesn't have postgres locally. In which case it's up to the user to execute the SQL
-   themselves. You may be thinking this exception might defeat the whole purpose of trying to create the DB locally.
+      // const dbPostGres = new Client({
+      //   user: DB.PGUSER,
+      //   host: DB.PGHOST,
+      //   database: "postgres",
+      //   password: DB.PGPASSWORD,
+      //   port: DB.PGPORT,
+      // });
+      // Client for actual ecommerce project database.
+      const dbECommerceProjectTest =
+        isProduction
+          ? new Client({
+            connectionString: DB.LIVE_DATABASE_URL,
+            ssl: {
+              rejectUnauthorized: false
+            }
+          })
+          : new Client({
+            user: DB.PGUSER,
+            host: DB.PGHOST,
+            database: DB.PGDATABASE,
+            password: DB.PGPASSWORD,
+            port: DB.PGPORT,
+          });
+      /*
+      @hazeltonbw, although this script is able to create the schema of the tables, it does not create the database itself.
+      You are not doing anything special with the database itself, I think the script is close enough to making it 
+      for contributors.
+      */
+      /*
+     @hazeltonbw First we'll connect to postgres in order to create the database. Typically postgres is the default db in PSQL. 
+     There is a chance that maybe a contributor doesn't have postgres locally. In which case it's up to the user to execute the SQL
+     themselves. You may be thinking this exception might defeat the whole purpose of trying to create the DB locally.
+  
+     I agree, and I think I found some stackoverflow articles that offer a good solution, although it will require restructuring the code.I'll
+     let you decide! 
+  
+     https://stackoverflow.com/questions/20813154/node-postgres-create-database
+  
+     */
 
-   I agree, and I think I found some stackoverflow articles that offer a good solution, although it will require restructuring the code.I'll
-   let you decide! 
+      // try {
+      //   await dbPostGres.connect();
+      //   await dbPostGres.query(createDatabase);
+      // } catch (error) {
+      //   if (error.code == "42P04") {
+      //     console.error(`${DB.PGDATABASE} already exists`);
+      //   } else {
+      //     console.error(error);
+      //   }
+      // } finally {
+      // dbPostGres.end();
+      // console.debug(`Switching from postgres to ${DB.PGDATABASE}.`);
+      await dbECommerceProjectTest.connect();
+      // }
 
-   https://stackoverflow.com/questions/20813154/node-postgres-create-database
+      // Create tables on database
+      await dbECommerceProjectTest.query(createCartsTable);
+      await dbECommerceProjectTest.query(createProductsTable);
+      await dbECommerceProjectTest.query(createCartHasProductsTable);
+      await dbECommerceProjectTest.query(createOrdersTable);
+      await dbECommerceProjectTest.query(createUsersTable);
+      await dbECommerceProjectTest.query(createOrderHasProductsTable);
+      await dbECommerceProjectTest.query(createCategoryTable);
+      await dbECommerceProjectTest.query(createUserSessionsTable);
+      await dbECommerceProjectTest.query(addConstraints);
 
-   */
-
-    // try {
-    //   await dbPostGres.connect();
-    //   await dbPostGres.query(createDatabase);
-    // } catch (error) {
-    //   if (error.code == "42P04") {
-    //     console.error(`${DB.PGDATABASE} already exists`);
-    //   } else {
-    //     console.error(error);
-    //   }
-    // } finally {
-    // dbPostGres.end();
-    // console.debug(`Switching from postgres to ${DB.PGDATABASE}.`);
-    await dbECommerceProjectTest.connect();
-    // }
-
-    // Create tables on database
-    await dbECommerceProjectTest.query(createCartsTable);
-    await dbECommerceProjectTest.query(createProductsTable);
-    await dbECommerceProjectTest.query(createCartHasProductsTable);
-    await dbECommerceProjectTest.query(createOrdersTable);
-    await dbECommerceProjectTest.query(createUsersTable);
-    await dbECommerceProjectTest.query(createOrderHasProductsTable);
-    await dbECommerceProjectTest.query(createCategoryTable);
-    await dbECommerceProjectTest.query(createUserSessionsTable);
-    await dbECommerceProjectTest.query(addConstraints);
-
-    await dbECommerceProjectTest.end();
-  } catch (err) {
-    console.log("ERROR CREATING ONE OR MORE TABLES: ", err);
-  }
-})();
+      await dbECommerceProjectTest.end();
+    } catch (err) {
+      console.log("ERROR CREATING ONE OR MORE TABLES: ", err);
+    }
+  })();
