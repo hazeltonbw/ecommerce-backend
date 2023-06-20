@@ -5,26 +5,11 @@ const pgSession = require("connect-pg-simple")(session);
 const pgPool = require("../db/index");
 const config = require("../config");
 
-function dynamicOriginConfig(origin, callback) {
-  if (
-    process.env.NODE_ENV === "development" ||
-    process.env.NODE_ENV === "test"
-  ) {
-    callback(null, true);
-    return;
-  }
-  if (process.env.WHITE_LIST.indexOf(origin) !== -1) {
-    callback(null, true);
-  } else {
-    callback(new Error("Not allowed by CORS"));
-  }
-}
-
 module.exports = (app) => {
   app.use(
     cors({
-      //TODO: Figure out how to incorporate dynamicOriginConfig() here
-      origin: "http://localhost:5173",
+      // origin: "http://localhost:5173",
+      origin: config.DB.ORIGIN_URL,
       credentials: true,
     })
   );
