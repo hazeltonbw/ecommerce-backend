@@ -7,8 +7,6 @@ but either way the npm script doesn't seem to be picking up the .env in root.
 */
 const dotenv = require("dotenv").config();
 enviornmentVariablesChecker(dotenv);
-console.log(process.env.LIVE_ORIGIN_URL)
-console.log(process.env.LOCAL_ORIGIN_URL)
 module.exports = {
   PORT: process.env.PORT,
   DB: {
