@@ -1,7 +1,10 @@
 const { Client } = require("pg");
 const { DB } = require("../config");
+const { checkIfBuildIsProduction } = require("../helperFunctions");
 
 (async () => {
+
+  const isProduction = checkIfBuildIsProduction();
   const createDatabase = `
     CREATE DATABASE ${DB.PGDATABASE};
   `;
@@ -161,21 +164,29 @@ const { DB } = require("../config");
   try {
     // Make a temporary client to connect to postgres in order to create database.
 
-    const dbPostGres = new Client({
-      user: DB.PGUSER,
-      host: DB.PGHOST,
-      database: "postgres",
-      password: DB.PGPASSWORD,
-      port: DB.PGPORT,
-    });
+    // const dbPostGres = new Client({
+    //   user: DB.PGUSER,
+    //   host: DB.PGHOST,
+    //   database: "postgres",
+    //   password: DB.PGPASSWORD,
+    //   port: DB.PGPORT,
+    // });
     // Client for actual ecommerce project database.
-    const dbECommerceProjectTest = new Client({
-      user: DB.PGUSER,
-      host: DB.PGHOST,
-      database: DB.PGDATABASE,
-      password: DB.PGPASSWORD,
-      port: DB.PGPORT,
-    });
+    const dbECommerceProjectTest =
+      isProduction
+        ? new Client({
+          connectionString: DB.LIVE_DATABASE_URL,
+          ssl: {
+            rejectUnauthorized: false
+          }
+        })
+        : new Client({
+          user: DB.PGUSER,
+          host: DB.PGHOST,
+          database: DB.PGDATABASE,
+          password: DB.PGPASSWORD,
+          port: DB.PGPORT,
+        });
     /*
     @hazeltonbw, although this script is able to create the schema of the tables, it does not create the database itself.
     You are not doing anything special with the database itself, I think the script is close enough to making it 
