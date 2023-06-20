@@ -19,6 +19,9 @@ const pool =
       port: DB.PGPORT,
     });
 
+console.log(isProduction, "IS PRODUCTION ")
+console.log(pool)
+
 module.exports = {
   async query(text, params) {
     const start = Date.now();
