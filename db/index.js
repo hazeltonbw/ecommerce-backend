@@ -2,11 +2,12 @@ const { DB } = require("../config");
 const Pool = require("pg").Pool;
 
 const isProduction = process.env.NODE_ENV === "production";
+console.log(DB.LIVE_DATABASE_URL, "LIVE DB URL")
 
 const pool =
   isProduction
     ? new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: DB.LIVE_DATABASE_URL,
       ssl: {
         rejectUnauthorized: false
       }

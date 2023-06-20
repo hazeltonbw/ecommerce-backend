@@ -12,6 +12,7 @@ module.exports = {
   DB: {
     PGHOST: process.env.PGHOST,
     PGUSER: process.env.PGUSER,
+    LIVE_DATABASE_URL: process.env.DATABASE_URL,
     ORIGIN_URL: process.env.NODE_ENV === "production" ? process.env.LIVE_ORIGIN_URL : process.env.LOCAL_ORIGIN_URL,
     PGDATABASE: process.env.PGDATABASE,
     PGPASSWORD: process.env.PGPASSWORD,
