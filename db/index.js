@@ -1,12 +1,23 @@
 const { DB } = require("../config");
 const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: DB.PGUSER,
-  host: DB.PGHOST,
-  database: DB.PGDATABASE,
-  password: DB.PGPASSWORD,
-  port: DB.PGPORT,
-});
+
+const isProduction = process.env.NODE_ENV === "production";
+
+const pool =
+  isProduction
+    ? new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    }) :
+    new Pool({
+      user: DB.PGUSER,
+      host: DB.PGHOST,
+      database: DB.PGDATABASE,
+      password: DB.PGPASSWORD,
+      port: DB.PGPORT,
+    });
 
 module.exports = {
   async query(text, params) {
@@ -14,7 +25,7 @@ module.exports = {
     const res = await pool.query(text, params);
     const duration = Date.now() - start;
     if (process.env.NODE_ENV !== "test") {
-      console.log("executed query", { text, duration, rows: res.rowCount, params: params});
+      console.log("executed query", { text, duration, rows: res.rowCount, params: params });
     }
     return res;
   },
