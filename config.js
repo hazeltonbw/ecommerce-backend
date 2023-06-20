@@ -32,6 +32,7 @@ module.exports = {
       // Week long cookie age
       // 24 hours * 60 mins * 60 secs * 1000ms
       maxAge: 24 * 60 * 60 * 1000,
+      domain: process.env.LIVE_ORIGIN_URL,
       // maxAge: 10 * 1000, // max age = 10 secs
     },
     SESSION_SECRET: process.env.SESSION_SECRET,
