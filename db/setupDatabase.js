@@ -5,13 +5,12 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
 (async () => {
 
   const isProduction = checkIfBuildIsProduction();
+  console.log(isProduction, "IS PRODUCTION SETUP DB")
   const createDatabase = `
     CREATE DATABASE ${DB.PGDATABASE};
   `;
 
   const createCartsTable = `
-    DROP TABLE IF EXISTS public.${DB.CARTS_TABLE} CASCADE;
-
     CREATE TABLE IF NOT EXISTS public.${DB.CARTS_TABLE}
     (
         cart_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -23,8 +22,6 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
   `;
 
   const createProductsTable = `
-    DROP TABLE IF EXISTS public.${DB.PRODUCTS_TABLE} CASCADE;
-
     CREATE TABLE IF NOT EXISTS public.${DB.PRODUCTS_TABLE}
     (
         product_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -38,8 +35,6 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
   `;
 
   const createCartHasProductsTable = `
-    DROP TABLE IF EXISTS public.${DB.CART_HAS_PRODUCTS_TABLE} CASCADE;
-
     CREATE TABLE IF NOT EXISTS public.${DB.CART_HAS_PRODUCTS_TABLE}
     (
         cart_id integer NOT NULL,
@@ -50,8 +45,6 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
   `;
 
   const createOrdersTable = `
-    DROP TABLE IF EXISTS public.${DB.ORDERS_TABLE} CASCADE;
-
     CREATE TABLE IF NOT EXISTS public.${DB.ORDERS_TABLE}
     (
         order_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -63,8 +56,6 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
   `;
 
   const createUsersTable = `
-    DROP TABLE IF EXISTS public.${DB.USERS_TABLE} CASCADE;
-
     CREATE TABLE IF NOT EXISTS public.${DB.USERS_TABLE}
     (
         user_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -78,8 +69,6 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
   `;
 
   const createOrderHasProductsTable = `
-    DROP TABLE IF EXISTS public.${DB.ORDER_HAS_PRODUCTS_TABLE} CASCADE;
-
     CREATE TABLE IF NOT EXISTS public.${DB.ORDER_HAS_PRODUCTS_TABLE}
     (
         order_id integer NOT NULL,
@@ -89,8 +78,6 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
   `;
 
   const createCategoryTable = `
-    DROP TABLE IF EXISTS public.${DB.CATEGORIES_TABLE} CASCADE;
-
     CREATE TABLE IF NOT EXISTS public.${DB.CATEGORIES_TABLE}
     (
         category_id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -100,8 +87,6 @@ const { checkIfBuildIsProduction } = require("../helperFunctions");
   `;
 
   const createUserSessionsTable = `
-    DROP TABLE IF EXISTS public.${DB.USER_SESSIONS_TABLE} CASCADE;
-
     CREATE TABLE IF NOT EXISTS "${DB.USER_SESSIONS_TABLE}" (
       "sid" varchar NOT NULL COLLATE "default",
       "sess" json NOT NULL,
