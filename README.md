@@ -13,14 +13,8 @@ This project requires a [PostgreSQL](https://www.postgresql.org/) database to be
 Reference the ERD diagram located in the `resources` folder of this repo to view the structure of the tables. 
 You can use [pgAdmin](https://www.pgadmin.org/) to interact with the database manually.
 
-
-To easily populate your database with the requisite tables, run the command `npm run create-db` in your terminal. 
-This will create tables in your database if they do not already exist. 
-The configuration for this script can be found in the `setupDatabase.js` 
-file located in the root of this project.
-
-If you run into an error where the database cannot be created, 
-you will have to create it yourself in the `psql` terminal.
+#### Creating the database
+You will have to create the database using a terminal.
 
 > **Note**: This will be different depending on your machine and PostgreSQL version
 ```sh
@@ -40,6 +34,11 @@ GRANT
 ecommerce_project=# GRANT ALL ON SCHEMA public TO <your_username_here>;
 GRANT
 ```
+
+To easily populate your database with the requisite tables, run the command `npm run create-db` in your terminal. 
+This will create tables in your database if they do not already exist. 
+The configuration for this script can be found in the `setupDatabase.js` 
+file located in the root of this project.
 
 ### Configure Environment Variables
 
