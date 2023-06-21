@@ -1,6 +1,6 @@
 const { checkIfBuildIsProduction } = require("../helperFunctions");
 
-const { DB }  require("../config");
+const { DB } = require("../config");
 const Pool = require("pg").Pool;
 
 const isProduction = checkIfBuildIsProduction();
