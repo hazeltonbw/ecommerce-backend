@@ -8,7 +8,7 @@
     "prod": "cross-env NODE_ENV=production nodemon -r dotenv/config server.js",
     "create-db": "node db/setupDatabase.js",
     "seed-db": "node db/seedDatabase.js",
-    "test": "cross-env NODE_ENV=test jest --forceExit --runInBand",
+    "test": "cross-env NODE_ENV=test jest --forceExit --runInBand"
   },
   "author": "",
   "license": "ISC",
