@@ -9,7 +9,6 @@
     "create-db": "node db/setupDatabase.js",
     "seed-db": "node db/seedDatabase.js",
     "test": "cross-env NODE_ENV=test jest --forceExit --runInBand",
-    "install-stripe": "chmod u+x install-stripe.sh && ./install-stripe.sh"
   },
   "author": "",
   "license": "ISC",
