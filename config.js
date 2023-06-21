@@ -13,6 +13,7 @@ module.exports = {
         PGHOST: process.env.PGHOST,
         PGUSER: process.env.PGUSER,
         ORIGIN_URL: process.env.NODE_ENV === "production" ? process.env.LIVE_ORIGIN_URL : process.env.LOCAL_ORIGIN_URL,
+        LIVE_DATABASE_URL: process.env.LIVE_DATABASE_URL,
         PGDATABASE: process.env.PGDATABASE,
         PGPASSWORD: process.env.PGPASSWORD,
         PGPORT: process.env.PGPORT,
