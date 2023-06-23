@@ -11,7 +11,7 @@ module.exports = (app) => {
             // origin: "http://localhost:5173",
             // origin: config.DB.ORIGIN_URL,
             //            origin: [config.DB.RIGIN_URL, "ecommerce-ttgf.onrender.com", "http://localhost:5173"],
-            origin: ["ecommerce-ttgf.onrender.com", "https://ecommerce-ttgf.onrender.com/", "https://ecommerce-frontend-cs5n.onrender.com/"],
+            origin: "ecommerce-ttgf.onrender.com",
             credentials: true,
         })
     );
