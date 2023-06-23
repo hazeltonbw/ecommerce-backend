@@ -14,12 +14,7 @@ module.exports = (app) => {
      * where the Content-Type header matches the type option.
      * https://github.com/expressjs/body-parser/tree/1.19.0#bodyparserrawoptions
      */
-    const rawBodySaver = (req, res, buf, encoding) => {
-        if (buf && buf.length) {
-            req.rawBody = buf.toString(encoding || 'utf8');
-        }
-    }
-    router.post("/webhook", bodyParser.raw({ verify: rawBodySaver, type: '*/*' }),
+    router.post("/webhook", express.raw({ type: 'application/json' }),
         // https://stripe.com/docs/webhooks/quickstart
         // Use Stripe webhooks for post-payment database processing
         orderController.handleStripeEvent, orderController.createOrder)
