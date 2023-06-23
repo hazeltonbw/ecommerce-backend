@@ -11,7 +11,7 @@ module.exports = (app) => {
     //            origin: [config.DB.ORIGIN_URL, "ecommerce-ttgf.onrender.com", "http://localhost:5173"],
     app.use(
         cors({
-            origin: config.DB.ORIGIN_URL,
+            origin: /onrender\.com$/,
             credentials: true,
         })
     );
