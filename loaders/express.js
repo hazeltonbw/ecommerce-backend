@@ -60,7 +60,13 @@ module.exports = (app) => {
             }),
             secret: config.SESSION.SESSION_SECRET,
             resave: false,
-            cookie: config.SESSION.COOKIE,
+            cookie: {
+                secure: 'auto',
+                // Week long cookie age
+                // 24 hours * 60 mins * 60 secs * 1000ms
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            },
             saveUninitialized: false,
         })
     );
