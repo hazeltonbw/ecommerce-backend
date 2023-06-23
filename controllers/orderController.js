@@ -12,7 +12,7 @@ const handleStripeEvent = async (req, res, next) => {
     let event;
 
     try {
-        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+        event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
     } catch (err) {
         // On error, log and return the error message
         console.log(`❌ Error message: ${err.message}`);
