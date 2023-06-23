@@ -4,6 +4,7 @@ const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const pgPool = require("../db/index");
 const config = require("../config");
+const express = require("express");
 
 module.exports = (app) => {
     // origin: "http://localhost:5173",
@@ -35,21 +36,27 @@ module.exports = (app) => {
         );
     }
 
-    app.use((req, res, next) => {
-        // If the request is for the webhook, the body
-        // must be a string and not parsed as JSON. 
-        // https://github.com/stripe/stripe-node/blob/master/examples/webhook-signing/express/main.ts
-        if (req.originalUrl === '/orders/webhook') {
-            next();
-        } else {
-            // Transforms raw string of req.body into JSON
-            bodyParser.json()(req, res, next);
-        }
-    }
-    );
+    //app.use((req, res, next) => {
+    // If the request is for the webhook, the body
+    // must be a string and not parsed as JSON. 
+    // https://github.com/stripe/stripe-node/blob/master/examples/webhook-signing/express/main.ts
+    //if (req.originalUrl === '/orders/webhook') {
+    //next();
+    //} else {
+    // Transforms raw string of req.body into JSON
+    //bodyParser.json()(req, res, next);
+    //}
+    //}
+    //);
+    app.use(express.json({
+        limit: '5mb',
+        verify: (req, res, buf) => {
+            req.rawBody = buf.toString();
+        },
+    }));
 
     // Parses urlencoded bodies
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(express.urlencoded({ extended: true }));
 
     // Creates a session
     app.use(

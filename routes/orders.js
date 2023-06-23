@@ -14,7 +14,8 @@ module.exports = (app) => {
      * where the Content-Type header matches the type option.
      * https://github.com/expressjs/body-parser/tree/1.19.0#bodyparserrawoptions
      */
-    router.post("/webhook", express.raw({ type: 'application/json' }),
+    //router.post("/webhook", express.raw({ type: 'application/json' }),
+    router.post("/webhook",
         // https://stripe.com/docs/webhooks/quickstart
         // Use Stripe webhooks for post-payment database processing
         orderController.handleStripeEvent, orderController.createOrder)
