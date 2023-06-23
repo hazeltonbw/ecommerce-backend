@@ -6,19 +6,24 @@ const bodyParser = require("body-parser");
 
 module.exports = (app) => {
 
-  app.use("/orders", router);
-  router.get("/", isLoggedIn, orderController.getOrders);
-  router.get("/recent", isLoggedIn, orderController.getLatestOrder)
-  /**
-   * Returns middleware that parses all bodies as a string and only looks at requests
-   * where the Content-Type header matches the type option.
-   * https://github.com/expressjs/body-parser/tree/1.19.0#bodyparserrawoptions
-   */
-  router.post("/webhook", bodyParser.raw({ type: 'application/json' }),
-    // https://stripe.com/docs/webhooks/quickstart
-    // Use Stripe webhooks for post-payment database processing
-    orderController.handleStripeEvent, orderController.createOrder)
-  router.post("/new", isLoggedIn, orderController.createOrder);
-  router.get("/:order_id", isLoggedIn, orderController.getOrderById);
-  router.put("/:order_id", isLoggedIn, orderController.updateOrderStatus);
+    app.use("/orders", router);
+    router.get("/", isLoggedIn, orderController.getOrders);
+    router.get("/recent", isLoggedIn, orderController.getLatestOrder)
+    /**
+     * Returns middleware that parses all bodies as a string and only looks at requests
+     * where the Content-Type header matches the type option.
+     * https://github.com/expressjs/body-parser/tree/1.19.0#bodyparserrawoptions
+     */
+    const rawBodySaver = (req, res, buf, encoding) => {
+        if (buf && buf.length) {
+            req.rawBody = buf.toString(encoding || 'utf8');
+        }
+    }
+    router.post("/webhook", bodyParser.raw({ verify: rawBodySaver, type: '*/*' }),
+        // https://stripe.com/docs/webhooks/quickstart
+        // Use Stripe webhooks for post-payment database processing
+        orderController.handleStripeEvent, orderController.createOrder)
+    router.post("/new", isLoggedIn, orderController.createOrder);
+    router.get("/:order_id", isLoggedIn, orderController.getOrderById);
+    router.put("/:order_id", isLoggedIn, orderController.updateOrderStatus);
 };
