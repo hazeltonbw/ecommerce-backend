@@ -33,7 +33,7 @@ module.exports = {
             // 24 hours * 60 mins * 60 secs * 1000ms
             maxAge: 24 * 60 * 60 * 1000,
             // maxAge: 10 * 1000, // max age = 10 secs
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            //sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         },
         SESSION_SECRET: process.env.SESSION_SECRET,
     },
