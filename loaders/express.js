@@ -6,12 +6,12 @@ const pgPool = require("../db/index");
 const config = require("../config");
 
 module.exports = (app) => {
+    // origin: "http://localhost:5173",
+    // origin: config.DB.ORIGIN_URL,
+    //            origin: [config.DB.ORIGIN_URL, "ecommerce-ttgf.onrender.com", "http://localhost:5173"],
     app.use(
         cors({
-            // origin: "http://localhost:5173",
-            // origin: config.DB.ORIGIN_URL,
-            //            origin: [config.DB.RIGIN_URL, "ecommerce-ttgf.onrender.com", "http://localhost:5173"],
-            origin: "ecommerce-ttgf.onrender.com",
+            origin: config.DB.ORIGIN_URL,
             credentials: true,
         })
     );
