@@ -34,7 +34,7 @@ module.exports = {
             maxAge: 24 * 60 * 60 * 1000,
             // maxAge: 10 * 1000, // max age = 10 secs
             //sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-            sameSite: "strict",
+            //sameSite: "strict",
         },
         SESSION_SECRET: process.env.SESSION_SECRET,
     },
