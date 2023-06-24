@@ -73,7 +73,7 @@ module.exports = (app) => {
                 // 24 hours * 60 mins * 60 secs * 1000ms
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-                domain: "ecommerce-frontend-cs5n.onrender.com",
+                domain: ".onrender.com",
                 //sameSite: "strict"
             },
             saveUninitialized: false,
