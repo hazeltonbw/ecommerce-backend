@@ -12,7 +12,7 @@ module.exports = (app) => {
     //            origin: [config.DB.ORIGIN_URL, "ecommerce-ttgf.onrender.com", "http://localhost:5173"],
     app.use(
         cors({
-            origin: /onrender\.com$/,
+            origin: process.env.NODE_ENV === "production" ? "[/onrender\.com$/" : "http://localhost:5173",
             credentials: true,
         })
     );
@@ -72,7 +72,8 @@ module.exports = (app) => {
                 // Week long cookie age
                 // 24 hours * 60 mins * 60 secs * 1000ms
                 maxAge: 7 * 24 * 60 * 60 * 1000,
-                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                //sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                sameSite: "strict"
             },
             saveUninitialized: false,
         })
