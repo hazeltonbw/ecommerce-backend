@@ -68,16 +68,15 @@ module.exports = (app) => {
             secret: config.SESSION.SESSION_SECRET,
             resave: false,
             cookie: {
-                //secure: 'auto',
-                secure: false,
+                secure: true,
                 // Week long cookie age
                 // 24 hours * 60 mins * 60 secs * 1000ms
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-                domain: "onrender.com",
                 //sameSite: "strict"
             },
             saveUninitialized: false,
+            proxy: true,
         })
     );
 
