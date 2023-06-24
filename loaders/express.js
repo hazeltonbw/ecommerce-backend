@@ -68,7 +68,7 @@ module.exports = (app) => {
             secret: config.SESSION.SESSION_SECRET,
             resave: false,
             cookie: {
-                secure: true,
+                secure: process.env.NODE_ENV === "production" ? true : false,
                 // Week long cookie age
                 // 24 hours * 60 mins * 60 secs * 1000ms
                 maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -76,7 +76,7 @@ module.exports = (app) => {
                 //sameSite: "strict"
             },
             saveUninitialized: false,
-            proxy: true,
+            //proxy: process.env.NODE_ENV === "production" ? true : false,
         })
     );
 
