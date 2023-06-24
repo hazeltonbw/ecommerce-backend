@@ -76,7 +76,7 @@ module.exports = (app) => {
                 //sameSite: "strict"
             },
             saveUninitialized: false,
-            //proxy: process.env.NODE_ENV === "production" ? true : false,
+            proxy: process.env.NODE_ENV === "production" ? true : false,
         })
     );
 
