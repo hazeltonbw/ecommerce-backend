@@ -12,7 +12,7 @@ module.exports = (app) => {
     //            origin: [config.DB.ORIGIN_URL, "ecommerce-ttgf.onrender.com", "http://localhost:5173"],
     app.use(
         cors({
-            origin: process.env.NODE_ENV === "production" ? "[/onrender\.com$/" : "http://localhost:5173",
+            origin: process.env.NODE_ENV === "production" ? /onrender\.com$/ : "http://localhost:5173",
             credentials: true,
         })
     );
