@@ -2,7 +2,7 @@ require("dotenv").config({
     path: "../.env",
 });
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const endpointSecret = process.env.NODE_ENV === "production" ? process.env.STRIPE_WEBHOOK_SECRET_LIVE : process.env.STRIPE_WEBHOOK_SECRET_LOCAL;
 const { getCartIdByUserId } = require("../models/cart");
 const orderModel = require("../models/order");
 
