@@ -30,7 +30,6 @@ const logout = (req, res, next) => {
     if (req.session) {
       req.session.destroy();
     }
-    res.clearCookie('connect.sid');
     res.status(200).json("Logged out");
   });
 };
