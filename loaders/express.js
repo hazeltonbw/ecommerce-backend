@@ -59,7 +59,7 @@ module.exports = (app) => {
         // Week long cookie age
         maxAge: 7 * 24 * 60 * 60 * 1000,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        domain: "ecommerce-frontend-cs5n.onrender.com",
+        domain: ".onrender.com",
       },
       saveUninitialized: false,
       proxy: process.env.NODE_ENV === "production",
