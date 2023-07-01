@@ -57,8 +57,6 @@ module.exports = (app) => {
       cookie: {
         secure: process.env.NODE_ENV === "production",
         // Week long cookie age
-        httpOnly: false,
-        domain: ".onrender.com",
         maxAge: 7 * 24 * 60 * 60 * 1000,
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       },
