@@ -59,7 +59,7 @@ module.exports = (app) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         sameSite: "lax",
         httpOnly: true,
-        domain: ".onrender.com",
+        domain: "onrender.com",
         //sameSite: "strict"
       },
       saveUninitialized: false,
