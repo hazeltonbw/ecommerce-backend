@@ -7,6 +7,7 @@ const config = require("../config");
 const express = require("express");
 
 module.exports = (app) => {
+  app.set('trust proxy', 1);
   app.use(
     cors({
       origin: process.env.NODE_ENV === "production" ? /onrender\.com$/ : "http://localhost:5173",
@@ -59,11 +60,11 @@ module.exports = (app) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         sameSite: "lax",
         httpOnly: true,
-        domain: "onrender.com",
+        domain: ".ecommerce-frontend-cs5n.onrender.com",
         //sameSite: "strict"
       },
       saveUninitialized: false,
-      proxy: process.env.NODE_ENV === "production" ? true : false,
+      proxy: process.env.NODE_ENV === "production",
     })
   );
 
