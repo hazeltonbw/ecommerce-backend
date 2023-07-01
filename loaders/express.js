@@ -58,7 +58,7 @@ module.exports = (app) => {
         secure: process.env.NODE_ENV === "production",
         // Week long cookie age
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: "lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       },
       saveUninitialized: false,
       proxy: process.env.NODE_ENV === "production",
