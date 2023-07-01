@@ -58,9 +58,8 @@ module.exports = (app) => {
         secure: process.env.NODE_ENV === "production" ? true : false,
         // Week long cookie age
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: "lax",
-        httpOnly: true,
-        domain: ".ecommerce-frontend-cs5n.onrender.com",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        domain: "ecommerce-frontend-cs5n.onrender.com",
         //sameSite: "strict"
       },
       saveUninitialized: false,
