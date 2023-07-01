@@ -55,13 +55,11 @@ module.exports = (app) => {
       secret: config.SESSION.SESSION_SECRET,
       resave: false,
       cookie: {
-        secure: process.env.NODE_ENV === "production" ? true : false,
+        secure: process.env.NODE_ENV === "production",
         // Week long cookie age
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: "strict",
-        httpOnly: false,
-        domain: ".ecommerce-frontend-cs5n.onrender.com",
-        //sameSite: "strict"
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        domain: "ecommerce-frontend-cs5n.onrender.com",
       },
       saveUninitialized: false,
       proxy: process.env.NODE_ENV === "production",
