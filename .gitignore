@@ -35,5 +35,3 @@ npm-debug.log
 .vscode
 .vscode/settings.json
 
-# Ignore distribution folders
-dist/
