@@ -25,7 +25,8 @@
     "passport-local": "^1.0.0",
     "pg": "^8.8.0",
     "pg-promise": "^11.2.0",
-    "stripe": "^12.5.0"
+    "stripe": "^12.5.0",
+    "vite-express": "^0.9.1"
   },
   "devDependencies": {
     "@types/jest": "^29.2.5",

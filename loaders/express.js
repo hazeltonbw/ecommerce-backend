@@ -1,19 +1,22 @@
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const session = require("express-session");
-const pgSession = require("connect-pg-simple")(session);
-const pgPool = require("../db/index");
-const config = require("../config");
-const express = require("express");
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const session = require('express-session')
+const pgSession = require('connect-pg-simple')(session)
+const pgPool = require('../db/index')
+const config = require('../config')
+const express = require('express')
 
 module.exports = (app) => {
-  app.set('trust proxy', 1);
-  app.use(
-    cors({
-      origin: process.env.NODE_ENV === "production" ? /onrender\.com$/ : "http://localhost:5173",
-      credentials: true,
-    })
-  );
+  app.set('trust proxy', 1)
+  // app.use(
+  //   cors({
+  //     origin:
+  //       process.env.NODE_ENV === 'production'
+  //         ? /onrender\.com$/
+  //         : 'http://localhost:5173',
+  //     credentials: true,
+  //   })
+  // )
 
   // Logging
   //app.use(morgan("dev"));   // Normal dev logging
@@ -23,27 +26,29 @@ module.exports = (app) => {
   // This is done to prevent errors in Jest.
   // Also disable logger when build is production
   if (
-    process.env.NODE_ENV !== "test" ||
-    process.env.NODE_ENV !== "production"
+    process.env.NODE_ENV !== 'test' ||
+    process.env.NODE_ENV !== 'production'
   ) {
-    const logger = require("morgan");
+    const logger = require('morgan')
     app.use(
-      logger(":method :url :status :response-time :date", {
-        skip: () => process.env.NODE_ENV === "test",
-      })
-    );
+      logger(':method :url :status :response-time :date', {
+        skip: () => process.env.NODE_ENV === 'test',
+      }),
+    )
   }
 
   // use req.RawBody for Stripe Webhook processing
-  app.use(express.json({
-    limit: '5mb',
-    verify: (req, res, buf) => {
-      req.rawBody = buf.toString();
-    },
-  }));
+  app.use(
+    express.json({
+      limit: '5mb',
+      verify: (req, res, buf) => {
+        req.rawBody = buf.toString()
+      },
+    }),
+  )
 
   // Parses urlencoded bodies
-  app.use(express.urlencoded({ extended: true }));
+  app.use(express.urlencoded({ extended: true }))
 
   // Creates a session
   app.use(
@@ -55,15 +60,15 @@ module.exports = (app) => {
       secret: config.SESSION.SESSION_SECRET,
       resave: false,
       cookie: {
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === 'production',
         // Week long cookie age
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       },
       saveUninitialized: false,
-      proxy: process.env.NODE_ENV === "production",
-    })
-  );
+      proxy: process.env.NODE_ENV === 'production',
+    }),
+  )
 
-  return app;
-};
+  return app
+}
