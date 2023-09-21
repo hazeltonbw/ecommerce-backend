@@ -5,14 +5,21 @@ const Pool = require("pg").Pool;
 
 const isProduction = checkIfBuildIsProduction();
 
+const config = {
+	user: DB.PGUSER,
+	password: DB.PGPASSWORD,
+	host: DB.PGHOST,
+	port: DB.PGPORT,
+	database: DB.PGDATABASE,
+	ssl: {
+		rejectUnauthorized: false
+	}
+};
+
+
 const pool =
   isProduction
-    ? new Pool({
-      connectionString: DB.LIVE_DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false
-      }
-    }) :
+    ? new Pool(config) :
     new Pool({
       user: DB.PGUSER,
       host: DB.PGHOST,
