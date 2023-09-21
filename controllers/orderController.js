@@ -2,7 +2,7 @@ require("dotenv").config({
   path: "../.env",
 });
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.NODE_ENV === "production" ? process.env.STRIPE_WEBHOOK_SECRET_LIVE : process.env.STRIPE_WEBHOOK_SECRET_LOCAL;
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const { getCartIdByUserId } = require("../models/cart");
 const orderModel = require("../models/order");
 
@@ -12,9 +12,11 @@ const handleStripeEvent = async (req, res, next) => {
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
   } catch (err) {
     // On error, log and return the error message
+    //console.log(`endpointSecret: ${endpointSecret}`);
+    //console.log(`req.rawBody: ${req.body}`);
     console.log(`❌ Error message: ${err.message}`);
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
