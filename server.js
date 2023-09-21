@@ -4,6 +4,7 @@ require('dotenv').config({
 })
 
 const { PORT } = require('./config')
+const {checkIfBuildIsProduction} =  require('./helperFunctions')
 
 // app.get('/', (req, res, next) => {
 //   if (req.user) {
@@ -15,4 +16,5 @@ const { PORT } = require('./config')
 
 app.listen(PORT, () => {
   console.log(`Server listening on PORT ${PORT}`)
+  console.log(`Production mode?: ${checkIfBuildIsProduction()}`)
 })
