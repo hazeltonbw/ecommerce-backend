@@ -21,6 +21,7 @@ module.exports = (app) => {
   app.use((err, req, res, next) => {
     const { message } = err
     const status = err.status || 500
+    console.err(message, status);
 
     return res.status(status).json(message)
   })
